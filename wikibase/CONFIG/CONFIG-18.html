@@ -1,0 +1,8 @@
+{% set title = "Disable Mounting of hfs Filesystems" %}
+
+{% set description = "The
+<code>hfs</code> filesystem type is a hierarchical filesystem that allows you to mount Mac OS filesystems." %}
+
+{% set rationale = "Removing support for unneeded filesystem types reduces the local attack surface of the server. If this filesystem type is not needed, disable it." %}
+
+{% include 'wiki_template.jinja' with context %}

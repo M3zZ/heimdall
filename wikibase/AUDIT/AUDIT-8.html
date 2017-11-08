@@ -1,0 +1,10 @@
+{% set title = "Enable Auditing for Processes That Start Prior to auditd" %}
+
+{% set description = "Configure
+<code>grub</code> so that processes that are capable of being audited can be audited even if they start up prior to
+<code>auditd</code> startup." %}
+
+{% set rationale = "Audit events need to be captured on processes that start up prior to
+<code>auditd</code>, so that potential malicious activity cannot go undetected." %}
+
+{% include 'wiki_template.jinja' with context %}

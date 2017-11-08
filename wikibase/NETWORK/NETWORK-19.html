@@ -1,0 +1,7 @@
+{% set title = "Disable DCCP" %}
+
+{% set description = "The Datagram Congestion Control Protocol (DCCP) is a transport layer protocol that supports streaming media and telephony. DCCP provides a way to gain access to congestion control, without having to do it at the application layer, but does not provide in-sequence delivery." %}
+
+{% set rationale = "If the protocol is not required, it is recommended that the drivers not be installed to reduce the potential attack surface." %}
+
+{% include 'wiki_template.jinja' with context %}

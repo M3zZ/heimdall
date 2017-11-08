@@ -1,0 +1,8 @@
+{% set title = "Configure rsyslog to Send Logs to a Remote Log Host" %}
+
+{% set description = "The rsyslog utility supports the ability to send logs it gathers to a remote log host running
+<code>syslogd(8)</code> or to receive messages from remote hosts, reducing administrative overhead." %}
+
+{% set rationale = "Storing log data on a remote host protects log integrity from local attacks. If an attacker gains root access on the local system, they could tamper with or remove log data that is stored on the local system" %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,8 @@
+{% set title = "Disable System Accounts" %}
+
+{% set description = "There are a number of accounts provided with the CentOS that are used to manage applications and are not intended to provide an interactive shell." %}
+
+{% set rationale = "It is important to make sure that accounts that are not being used by regular users are locked to prevent them from being used to provide an interactive shell. By default, CentOS sets the password field for these accounts to an invalid string, but it is also recommended that the shell field in the password file be set to
+<code>/sbin/nologin</code>. This prevents the account from potentially being used to run any commands." %}
+
+{% include 'wiki_template.jinja' with context %}

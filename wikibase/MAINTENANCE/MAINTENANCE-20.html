@@ -1,0 +1,9 @@
+{% set title = "Check Permissions on User .netrc Files" %}
+
+{% set description = "While the system administrator can establish secure permissions for users'
+<code>.netrc</code> files, the users can easily override these." %}
+
+{% set rationale = "
+<code>.netrc</code> files may contain unencrypted passwords that may be used to attack other systems." %}
+
+{% include 'wiki_template.jinja' with context %}

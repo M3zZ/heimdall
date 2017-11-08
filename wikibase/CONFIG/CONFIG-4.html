@@ -1,0 +1,10 @@
+{% set title = "Set noexec option for /tmp Partition" %}
+
+{% set description = "The
+<code>noexec</code> mount option specifies that the filesystem cannot contain executable binaries." %}
+
+{% set rationale = "Since the
+<code>/tmp</code> filesystem is only intended for temporary file storage, set this option to ensure that users cannot run executable binaries from
+<code>/tmp</code>." %}
+
+{% include 'wiki_template.jinja' with context %}

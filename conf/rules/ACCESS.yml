@@ -1,0 +1,252 @@
+desc: Authentification, Autorisation and System Access auditing rules
+id: 5
+name: ACCESS
+path: /home/tolivier-adm/WinDocuments/tolivier/Documents/Heimdall/heimdall/conf/rules/ACCESS.yml
+rules:
+-   audit:
+    - rpm -q cronie-anacron
+    desc: Verify that anacron is installed.
+    id: 1
+    remed:
+    - yum install cronie-anacron -y
+    wikipage: ACCESS-1.html
+-   audit:
+    - systemctl is-enabled crond|grep 'enabled'
+    desc: Verify that crond is enabled.
+    id: 2
+    remed:
+    - systemctl enable crond
+    wikipage: ACCESS-2.html
+-   audit:
+    - stat -L -c '%a %u %g' /etc/anacrontab|grep -w '[67]00 0 0'
+    desc: Verify that permissions on /etc/anacrontab are correct.
+    id: 3
+    remed:
+    - chown root:root /etc/anacrontab
+    - chmod og-rwx /etc/anacrontab
+    wikipage: ACCESS-3.html
+-   audit:
+    - stat -L -c '%a %u %g' /etc/crontab|grep -w '[67]00 0 0'
+    desc: Verify that permissions on /etc/crontab are correct.
+    id: 4
+    remed:
+    - chown root:root /etc/crontab
+    - chmod og-rwx /etc/crontab
+    wikipage: ACCESS-4.html
+-   audit:
+    - stat -L -c '%a %u %g' /etc/cron.hourly|grep -w '[67]00 0 0'
+    desc: Verify that permissions on /etc/cron.hourly are correct.
+    id: 5
+    remed:
+    - chown root:root /etc/cron.hourly
+    - chmod og-rwx /etc/cron.hourly
+    wikipage: ACCESS-5.html
+-   audit:
+    - stat -L -c '%a %u %g' /etc/cron.daily|grep -w '[67]00 0 0'
+    desc: Verify that permissions on /etc/cron.daily are correct.
+    id: 6
+    remed:
+    - chown root:root /etc/cron.daily
+    - chmod og-rwx /etc/cron.daily
+    wikipage: ACCESS-6.html
+-   audit:
+    - stat -L -c '%a %u %g' /etc/cron.weekly|grep -w '[67]00 0 0'
+    desc: Verify that permissions on /etc/cron.weekly are correct.
+    id: 7
+    remed:
+    - chown root:root /etc/cron.weekly
+    - chmod og-rwx /etc/cron.weekly
+    wikipage: ACCESS-7.html
+-   audit:
+    - stat -L -c '%a %u %g' /etc/cron.monthly|grep -w '[67]00 0 0'
+    desc: Verify that permissions on /etc/cron.monthly are correct.
+    id: 8
+    remed:
+    - chown root:root /etc/cron.monthly
+    - chmod og-rwx /etc/cron.monthly
+    wikipage: ACCESS-8.html
+-   audit:
+    - stat -L -c '%a %u %g' /etc/cron.d|grep -w '[67]00 0 0'
+    desc: Verify that permissions on /etc/cron.d are correct.
+    id: 9
+    remed:
+    - chown root:root /etc/cron.d
+    - chmod og-rwx /etc/cron.d
+    wikipage: ACCESS-9.html
+-   audit:
+    - check_cron_access.sh
+    desc: Verify that cron is restricted to authorized users.
+    id: 10
+    remed:
+    - rm -f /etc/cron.deny
+    - touch /etc/cron.allow
+    - chown root:root /etc/cron.allow
+    - chmod og-rwx /etc/cron.allow
+    wikipage: ACCESS-10.html
+-   audit:
+    - check_at_access.sh
+    desc: Verify that at is restricted to authorized users.
+    id: 11
+    remed:
+    - rm -f /etc/at.deny
+    - touch /etc/at.allow
+    - chown root:root /etc/at.allow
+    - chmod og-rwx /etc/at.allow
+    wikipage: ACCESS-11.html
+-   audit:
+    - grep -w '^Protocole 2' /etc/ssh/sshd_config
+    desc: Verify that SSH Protocol is set to version 2.
+    id: 12
+    remed:
+    - sed -i 's/^Protocol.*/Protocol 2/g' /etc/ssh/sshd_config
+    wikipage: ACCESS-12.html
+-   audit:
+    - grep -w '^LogLevel INFO' /etc/ssh/sshd_config
+    desc: Verify that SSH loglevel is set to INFO.
+    id: 13
+    remed:
+    - sed -i 's/^LogLevel.*/LogLevel INFO/g' /etc/ssh/sshd_config
+    wikipage: ACCESS-13.html
+-   audit:
+    - stat -L -c '%a %u %g' /etc/ssh/sshd_config| grep -w '600 0 0'
+    desc: Verify that permissions on /etc/ssh/sshd_config are correct.
+    id: 14
+    remed:
+    - chown root:root /etc/ssh/sshd_config
+    - chmod og-rwx /etc/ssh/sshd_config
+    wikipage: ACCESS-14.html
+-   audit:
+    - grep -w '^X11Forwarding no' /etc/ssh/sshd_config
+    desc: Verify that SSH X11 forwading is disabled.
+    id: 15
+    remed:
+    - sed -i 's/^X11Forwarding.*/X11Forwarding no/g' /etc/ssh/sshd_config
+    wikipage: ACCESS-15.html
+-   audit:
+    - grep -w '^MaxAuthTries [0-4]' /etc/ssh/sshd_config
+    desc: Verify that SSH MaxAuthTries is set to 4 or less.
+    id: 16
+    remed:
+    - sed -i 's/^MaxAuthTries.*/MaxAuthTries 4/g' /etc/ssh/sshd_config
+    wikipage: ACCESS-16.html
+-   audit:
+    - grep -w '^IgnoreRhost yes' /etc/ssh/sshd_config
+    desc: Verify that SSH password authentication is forced.
+    id: 17
+    remed:
+    - sed -i 's/^IgnoreRhost.*/IgnoreRhost yes/g' /etc/ssh/sshd_config
+    wikipage: ACCESS-17.html
+-   audit:
+    - grep -w '^HostbasedAuthentication no' /etc/ssh/sshd_config
+    desc: Verify that SSH hostbased authentication is disabled.
+    id: 18
+    remed:
+    - sed -i 's/^HostbasedAuthentication.*/HostbasedAuthentication no/g' /etc/ssh/sshd_config
+    wikipage: ACCESS-18.html
+-   audit:
+    - grep -w '^PermitRootLogin no' /etc/ssh/sshd_config
+    desc: Verify that SSH login with root is disabled.
+    id: 19
+    remed:
+    - sed -i 's/^PermitRootLogin.*/PermitRootLogin no/g' /etc/ssh/sshd_config
+    wikipage: ACCESS-19.html
+-   audit:
+    - grep -w '^ PermitEmptyPasswords no' /etc/ssh/sshd_config
+    desc: Verify that empty password for ssh is disabled.
+    id: 20
+    remed:
+    - sed -i 's/^PermitEmptyPasswords.*/PermitEmptyPasswords no/g' /etc/ssh/sshd_config
+    wikipage: ACCESS-20.html
+-   audit:
+    - grep -w '^PermitUserEnvironment no' /etc/ssh/sshd_config
+    desc: Verify that users are not allowed to set environment options.
+    id: 21
+    remed:
+    - sed -i 's/^PermitUserEnvironment.*/PermitUserEnvironment no/g' /etc/ssh/sshd_config
+    wikipage: ACCESS-21.html
+-   audit:
+    - grep -w '^Ciphers aes128-ctr,aes192-ctr,aes256-ctr' /etc/ssh/sshd_config
+    desc: Verify that utilization of approved cipher is forced.
+    id: 22
+    remed:
+    - sed -i 's/^Ciphers.*/ Ciphers aes128-ctr,aes192-ctr,aes256-ctr/g' /etc/ssh/sshd_config
+    wikipage: ACCESS-22.html
+-   audit:
+    - egrep -w '^ClientAliveInterval [0-9]+' /etc/ssh/sshd_config
+    - egrep -w '^ClientAliveCountMax [0-9]+' /etc/ssh/sshd_config
+    desc: Verify that idle timeout interval is set for user login.
+    id: 23
+    remed:
+    - sed -i 's/^ClientAliveInterval [0-9]+/ClientAliveInterval 300/g' /etc/ssh/sshd_config
+    - sed -i 's/^ClientAliveCountMax [0-9]+/ClientAliveCountMax 0/g' /etc/ssh/sshd_config
+    wikipage: ACCESS-23.html
+-   audit:
+    - grep -w '^Banner' /etc/ssh/sshd_config
+    desc: Verify that SSH banner is enabled.
+    id: 24
+    remed:
+    - sed -i 's/^Banners.*/Banner \/etc\/issue.net/g' /etc/ssh/sshd_config
+    wikipage: ACCESS-24.html
+-   audit:
+    - stat -c %a /etc/{motd,issue,issue.net}|awk '($NF != 644){exit 1}'
+    desc: Verify that SSH banner is configured.
+    id: 25
+    remed:
+    - touch /etc/{motd,issue,issue.net} && chmod 644 /etc/{motd,issue,issue.net}
+    wikipage: ACCESS-25.html
+-   audit:
+    - if [ $(egrep '(\\v|\\r|\\m|\\s)' /etc/motd | wc -l) -ge 1 ];then cat /etc/motd;exit 1;fi
+    - if [ $(egrep '(\\v|\\r|\\m|\\s)' /etc/issue | wc -l) -ge 1 ];then cat /etc/issue;exit 1;fi
+    - if [ $(egrep '(\\v|\\r|\\m|\\s)' /etc/issue.net | wc -l) -ge 1 ];then cat /etc/issue.net;exit 1;fi
+    desc: Verify that SSH banner does not contain system information.
+    id: 26
+    remed:
+    - sed -i 's/(\\v|\\r|\\m|\\s)//g' /etc/{motd,issue,issue.net}
+    wikipage: ACCESS-26.html
+-   audit:
+    - authconfig --test|grep '^\spassword\shashing.*[sShHaA]512$'
+    desc: Verify that password hashing algorithm is set to SHA-512.
+    id: 27
+    remed:
+    - authconfig --passalgo=sha512 --update
+    - awk -F':' '( $3 >=1000 && $1 != "nfsnobody" ) { print $1 }' /etc/passwd | xargs
+        -n 1 chage -d 0
+    wikipage: ACCESS-27.html
+-   audit:
+    - egrep '^password\s+requisite.*try_first_pass' /etc/pam.d/system-auth
+    - egrep '^password\s+requisite.*local_users_only' /etc/pam.d/system-auth
+    - egrep '^password\s+requisite.*retry=3' /etc/pam.d/system-auth
+    - egrep '^password\s+requisite.*authtok_type=' /etc/pam.d/system-auth
+    - grep '^minlen=14' /etc/security/pwquality.conf
+    - grep '^dcredit=-1' /etc/security/pwquality.conf
+    - grep '^ucredit=-1' /etc/security/pwquality.conf
+    - grep '^ocredit=-1' /etc/security/pwquality.conf
+    - grep '^lcredit=-1' /etc/security/pwquality.conf
+    desc: Verify that password creation requirements are strong.
+    id: 28
+    remed: ''
+    wikipage: ACCESS-28.html
+-   audit:
+    - grep 'pam_faillock' /etc/pam.d/password-auth
+    - grep 'pam_unix.so' /etc/pam.d/password-auth | grep success=1
+    - grep 'pam_faillock' /etc/pam.d/system-auth
+    - grep 'pam_unix.so' /etc/pam.d/system-auth | grep success=1
+    desc: Verify that lockout for failed password attempts is set.
+    id: 29
+    remed: ''
+    wikipage: ACCESS-29.html
+-   audit:
+    - grep 'remember=5' /etc/pam.d/system-auth
+    desc: Verify that limit password reuse is set.
+    id: 30
+    remed:
+    - sed -i 's/^password\ssufficient\spam_unix.so\sremember=.*/password sufficient
+        pam_unix.so remember=5/g'
+    wikipage: ACCESS-30.html
+-   audit:
+    - grep 'pam_wheel.so' /etc/pam.d/su
+    - grep wheel /etc/group
+    desc: Verify that restrict access to su command is set.
+    id: 31
+    remed: ''
+    wikipage: ACCESS-31.html

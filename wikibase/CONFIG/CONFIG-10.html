@@ -1,0 +1,8 @@
+{% set title = "Add nodev Option to /home" %}
+
+{% set description = "When set on a file system, this option prevents character and block special devices from being defined, or if they exist, from being used as character and block special devices." %}
+
+{% set rationale = "Since the user partitions are not intended to support devices, set this option to ensure that users cannot attempt to create block or character special devices.Note: The actions in the item refer to the
+<code>/home</code> partition. If you have created other user partitions, it is recommended that the Remediation and Audit steps be applied to these partitions as well." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,11 @@
+{% set title = "Check for Duplicate GIDs" %}
+
+{% set description = "Although the
+<code>groupadd</code> program will not let you create a duplicate Group ID (GID), it is possible for an administrator to manually edit the
+<code>/etc/group</code> file and change the GID field." %}
+
+{% set rationale = "Although the
+<code>groupadd</code> program will not let you create a duplicate Group ID (GID), it is possible for an administrator to manually edit the
+<code>/etc/group</code> file and change the GID field." %}
+
+{% include 'wiki_template.jinja' with context %}

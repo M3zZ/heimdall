@@ -1,0 +1,11 @@
+{% set title = "Accept Remote rsyslog Messages Only on Designated Log Hosts" %}
+
+{% set description = "By default,
+<code>rsyslog</code> does not listen for log messages coming in from remote systems. The <code>ModLoad</code> tells
+<code>rsyslog</code> to load the <code>imtcp.so</code> module so it can listen over a network via TCP. The <code>InputTCPServerRun</code> option instructs
+<code>rsyslogd</code> to listen on the specified TCP port." %}
+
+{% set rationale = "The guidance in the section ensures that remote log hosts are configured to only accept <code>rsyslog</code> data from hosts within the specified domain and that those systems that are not designed to be log hosts do not accept any remote
+<code>rsyslog</code> messages. This provides protection from spoofed log data and ensures that system administrators are reviewing reasonably complete syslog data in a central location." %}
+
+{% include 'wiki_template.jinja' with context %}

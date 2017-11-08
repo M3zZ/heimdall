@@ -1,0 +1,8 @@
+{% set title = "Keep All Auditing Information" %}
+
+{% set description = "Normally,
+<code>auditd</code> will hold 4 logs of maximum log file size before deleting older log files." %}
+
+{% set rationale = "In high security contexts, the benefits of maintaining a long audit history exceed the cost of storing the audit history." %}
+
+{% include 'wiki_template.jinja' with context %}

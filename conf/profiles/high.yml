@@ -1,0 +1,12 @@
+desc: High level recommendation.
+id: 4
+name: high
+path: /home/tolivier-adm/WinDocuments/tolivier/Documents/heimdall/conf/profiles/high.yml
+types:
+    ACCESS: -1
+    ACCOUNT: -1
+    AUDIT: -1
+    CONFIG: -1
+    MAINTENANCE: -1
+    NETWORK: -1
+    SERVICES: -1

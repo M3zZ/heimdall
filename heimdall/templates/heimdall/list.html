@@ -1,0 +1,218 @@
+<div class="dynamic-window-body">
+    {% if data %}
+    <table class="dynamic-window-searchfield-table">
+        <tr>
+            {% if item == 'audit' %}
+            <td><label>Filter by {{ item|title }} ID : </label></td>
+            {% else %}
+            <td><label>Filter by {{ item|title }} Name : </label></td>
+            {% endif %}
+            <td><input id="search-input" oninput="ruleSearch()" value="" type="text"/></td>
+            <td>
+                <button onclick="ruleSearch()">Go</button>
+            </td>
+            <td><label>Display : </label></td>
+            <td>
+                <select name="display_number">
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </td>
+            <td><label> items per page</label></td>
+        </tr>
+        <tr>
+            <td>
+                <select name="checked_action">
+                    <option selected="selected">More Actions..</option>
+                    <option value="delete" onclick="deleteBySelection('{{ item }}')">Delete Selected {{ item }}s
+                    </option>
+                </select>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="dynamic-window-table">
+    <table class="dynamic-window-object-list-table">
+        <thead>
+        <tr>
+            <th><input type="checkbox" id="maincheck" onclick="checkAll()"/></th>
+            <th>ID</th>
+            {% if item == 'host' %}
+            <th>Name</th>
+            <th>Ip Address</th>
+            <th>Operating System</th>
+            <th>last audit</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for h in data %}
+        <tr class="object-detail">
+            <td>
+                <input type="checkbox"/>
+            </td>
+            <td class="object-id">
+                <a href="item={{ item }}&action=detail&id={{ h.id }}">{{ h.id }}</a>
+            </td>
+            <td class="object-name">
+                <a href="item={{ item }}&action=detail&id={{ h.id }}">{{ h.name }}</a>
+            </td>
+            <td>
+                <a>{{ h.ip_address }}</a>
+            </td>
+            <td>
+                <a>{{ h.operating_system }}</a>
+            </td>
+            <td>
+                <a>
+                    {% if h.last_audit %}
+                    {{ h.last_audit }}
+                    {% else %}
+                    never
+                    {% endif %}
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        {% elif item == 'hostsgroup' %}
+        <th>Name</th>
+        <th>Associed Hosts</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for hg in data %}
+        <tr class="object-detail">
+            <td>
+                <input type="checkbox"/>
+            </td>
+            <td class="object-id">
+                <a href="item={{ item }}&action=detail&id={{ hg.id }}">{{ hg.id }}</a>
+            </td>
+            <td class="object-name">
+                <a href="item={{ item }}&action=detail&id={{ hg.id }}">{{ hg.name }}</a>
+            </td>
+            <td>
+                <abbr title="{% for h in hg.get_hosts %}{{ h.name }}
+{% endfor %}">
+                    {{ hg.get_hosts|length }}
+                </abbr>
+            </td>
+        </tr>
+        {% endfor %}
+        {% elif item == 'rule' %}
+        <th>Name</th>
+        <th>Associed Type</th>
+        <th>Associed Profiles</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for r in data %}
+        <tr class="object-detail">
+            <td>
+                <input type="checkbox"/>
+            </td>
+            <td class="object-id">
+                <a href="item={{ item }}&action=detail&id={{ r.id }}">{{ r.id }}</a>
+            </td>
+            <td class="object-name">
+                <a href="item={{ item }}&action=detail&id={{ r.id }}">{{ r }}</a>
+            </td>
+            <td>
+                <a href="item=type&action=detail&id={{ r.type.id }}">{{ r.type }}</a>
+            </td>
+            <td>
+                <abbr title="{% for p in r.get_profiles %}{{ p.name }}
+{% endfor %}">
+                    {{ r.get_profiles|length }}
+                </abbr>
+            </td>
+        </tr>
+        {% endfor %}
+        {% elif item == 'type' %}
+        <th>Name</th>
+        <th>Associed Rules</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for t in data %}
+        <tr class="object-detail">
+            <td>
+                <input type="checkbox"/>
+            </td>
+            <td class="object-id">
+                <a href="item={{ item }}&action=detail&id={{ t.id }}">{{ t.id }}</a>
+            </td>
+            <td class="object-name">
+                <a href="item={{ item }}&action=detail&id={{ t.id }}">{{ t }}</a>
+            </td>
+            <td>
+                <abbr title="{% for r in t.get_rules %}{{ r.name }}
+{% endfor %}">
+                    {{ t.get_rules|length }}
+                </abbr>
+            </td>
+        </tr>
+        {% endfor %}
+        {% elif item == 'profile' %}
+        <th>Name</th>
+        <th>Associed Rules</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for p in data %}
+        <tr class="object-detail">
+            <td>
+                <input type="checkbox"/>
+            </td>
+            <td class="object-id">
+                <a href="item={{ item }}&action=detail&id={{ p.id }}">{{ p.id }}</a>
+            </td>
+            <td class="object-name">
+                <a href="item={{ item }}&action=detail&id={{ p.id }}">{{ p }}</a>
+            </td>
+            <td>
+                <abbr title="{% for r in p.get_rules %}{{ r.name }}
+{% endfor %}">
+                    {{ p.get_rules|length }}
+                </abbr>
+            </td>
+        </tr>
+        {% endfor %}
+        {% elif item == 'audit' %}
+        <th>Host</th>
+        <th>Profile</th>
+        <th>Status</th>
+        <th>Audit Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for a in data %}
+        <tr class="object-detail">
+            <td>
+                <input type="checkbox"/>
+            </td>
+            <td class="object-id">
+                <a href="item=audit&action=detail&id={{ a.id }}">{{ a.id }}</a>
+            </td>
+            <td class="object-name">
+                <a href="item=host&action=detail&id={{ a.host.id }}">{{ a.host }}</a>
+            </td>
+            <td class="object-name">
+                <a href="item=profile&action=detail&id={{ a.profile.id }}">{{ a.profile }}</a>
+            </td>
+            <td>
+                <a>{{ a.audit_status }}</a>
+            </td>
+            <td>
+                <a>{{ a.date }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+</div>
+{% else %}
+No {{ item }} created.
+{% endif %}

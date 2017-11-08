@@ -1,0 +1,15 @@
+{% set title = "Set Password Creation Requirement Parameters Using pam_pwquality" %}
+
+{% set description = "The pam_pwquality module checks of the strength of passwords. It performs checks such as making sure a password is not a dictionary word, it is a certain length, contains a mix of characters (e.g. alphabet, numeric, other) and more. The following are definitions of the pam_pwquality.so options.
+<pre><code>try_first_pass - retrieve the password from a previous stacked PAM module. If not available, then prompt the user for a password. retry=3 - Allow 3 tries before sending back a failure.</code></pre>
+<pre><code>The following options are set in the /etc/security/pwquality.conf file:
+    minlen=14 - password must be 14 characters or more
+    dcredit=-1 - provide at least 1 digit
+    ucredit=-1 - provide at least one uppercase character
+    ocredit=-1 - provide at least one special character
+    lcredit=-1 - provide at least one lowercase character</code></pre>
+The setting shown above is one possible policy. Alter these values to conform to your own organization's password policies." %}
+
+{% set rationale = "Strong passwords protect systems from being hacked through brute force methods." %}
+
+{% include 'wiki_template.jinja' with context %}

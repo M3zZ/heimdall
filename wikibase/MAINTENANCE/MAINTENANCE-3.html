@@ -1,0 +1,9 @@
+{% set title = "Verify Permissions on /etc/group" %}
+
+{% set description = "The
+<code>/etc/group</code> file contains a list of all the valid groups defined in the system. The command below allows read/write access for root and read access for everyone else." %}
+
+{% set rationale = "The
+<code>/etc/group</code> file needs to be protected from unauthorized changes by non-privileged users, but needs to be readable as this information is used with many non-privileged programs." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,9 @@
+{% set title = "Set Password Change Minimum Number of Days" %}
+
+{% set description = "The <code>PASS_MIN_DAYS</code> parameter in
+<code>/etc/login.defs</code> allows an administrator to prevent users from changing their password until a minimum number of days have passed since the last time the user changed their password. It is recommended that
+<code>PASS_MIN_DAYS</code> parameter be set to 7 or more days." %}
+
+{% set rationale = "By restricting the frequency of password changes, an administrator can prevent users from repeatedly changing their password in an attempt to circumvent password reuse controls." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,8 @@
+{% set title = "Limit Password Reuse" %}
+
+{% set description = "The
+<code>/etc/security/opasswd</code> file stores the users' old passwords and can be checked to ensure that users are not recycling recent passwords." %}
+
+{% set rationale = "Forcing users not to reuse their past 5 passwords make it less likely that an attacker will be able to guess the password. Note that these change only apply to accounts configured on the local system." %}
+
+{% include 'wiki_template.jinja' with context %}

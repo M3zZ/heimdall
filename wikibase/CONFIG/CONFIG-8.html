@@ -1,0 +1,11 @@
+{% set title = "Create Separate Partition for /var/log/audit" %}
+
+{% set description = "The auditing daemon, <code>auditd</code>, stores log data in the
+<code>/var/log/audit</code> directory." %}
+
+{% set rationale = "There are two important reasons to ensure that data gathered by
+<code>auditd</code> is stored on a separate partition: protection against resource exhaustion (since the
+<code>audit.log</code> file can grow quite large) and protection of audit data. The audit daemon calculates how much free space is left and performs actions based on the results. If other processes (such as
+<code>syslog</code>) consume space in the same partition as <code>auditd</code>, it may not perform as desired." %}
+
+{% include 'wiki_template.jinja' with context %}

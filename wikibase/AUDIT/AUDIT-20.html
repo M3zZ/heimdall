@@ -1,0 +1,9 @@
+{% set title = "Collect Changes to System Administration Scope" %}
+
+{% set description = "Monitor scope changes for system administrations. If the system has been properly configured to force system administrators to log in as themselves first and then use the
+<code>sudo</code> command to execute privileged commands, it is possible to monitor changes in scope. The file <code>/etc/sudoers</code> will be written to when the file or its attributes have changed. The audit records will be tagged with the identifier 'scope.'" %}
+
+{% set rationale = "Changes in the
+<code>/etc/sudoers</code> file can indicate that an unauthorized change has been made to scope of system administrator activity." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,9 @@
+{% set title = "Remove MCS Translation Service (mcstrans)" %}
+
+{% set description = "The
+<code>mcstransd</code> daemon provides category label information to client processes requesting information. The label translations are defined in
+<code>/etc/selinux/targeted/setrans.conf</code>" %}
+
+{% set rationale = "Since this service is not used very often, disable it to reduce the amount of potentially vulnerable code running on the system." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,17 @@
+{% set title = "Record Events That Modify the System's Network Environment" %}
+
+{% set description = "Record changes to network environment files or system calls. The below parameters monitor the
+<code>sethostname</code> (set the system's host name) or
+<code>setdomainname</code> (set the system's domainname) system calls, and write an audit event on system call exit. The other parameters monitor the /etc/issue and
+<code>/etc/issue.net</code> files (messages displayed pre-login),
+<code>/etc/hosts</code> (file containing host names and associated IP addresses) and
+<code>/etc/sysconfig/network</code> (directory containing network interface scripts and configurations) files." %}
+
+{% set rationale = "Monitoring <code>sethostname</code> and
+<code>setdomainname</code> will identify potential unauthorized changes to host and domainname of a system. The changing of these names could potentially break security parameters that are set based on those names. The
+<code>/etc/hosts</code> file is monitored for changes in the file that can indicate an unauthorized intruder is trying to change machine associations with IP addresses and trick users and processes into connecting to unintended machines. Monitoring
+<code>/etc/issue</code> and
+<code>/etc/issue.net</code> is important, as intruders could put disinformation into those files and trick users into providing information to the intruder. Monitoring
+<code>/etc/sysconfig/network</code> is important as it can show if network interfaces or scripts are being modified in a way that can lead to the machine becoming unavailable or compromised. All audit records will be tagged with the identifier 'system-locale.'" %}
+
+{% include 'wiki_template.jinja' with context %}

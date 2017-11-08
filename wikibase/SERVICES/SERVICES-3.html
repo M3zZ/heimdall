@@ -1,0 +1,8 @@
+{% set title = "Remove rsh-server" %}
+
+{% set description = "The Berkeley rsh-server ( <code>rsh</code> , <code>rlogin</code>,
+<code>rcp</code> ) package contains legacy services that exchange credentials in clear-text." %}
+
+{% set rationale = "These legacy service contain numerous security exposures and have been replaced with the more secure SSH package." %}
+
+{% include 'wiki_template.jinja' with context %}

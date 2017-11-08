@@ -1,0 +1,100 @@
+<div class="keywords sr-only">{{ title }}</div>
+<div class="panel-heading">
+    <h3 class="panel-title">{{ title }}</h3>
+</div>
+<div class="panel-body">
+    <table class="table table-striped table-bordered table-detail">
+        <tbody>
+        <tr>
+            <td class="col-md-3">Rule ID</td>
+            <td class="rule-id col-md-9">{{ type.name }}-{{ rule.id }}</td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td>
+                <div class="description">
+                    <p>{{ description }}</p>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Rationale</td>
+            <td>
+                <div class="rationale">
+                    <p>{{ rationale }}</p>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                {% for r in rule.audit %}
+                <span class="label label-success">
+                {%- if '.sh' == rule.audit[loop.index-1][-3:] -%}
+                    Audit Script:
+                {%- else -%}
+                    Audit Command:
+                {%- endif -%}
+                </span>
+                <div class="audit">
+                    {%- if rule_output[type.name][rule.id]['ret_code'][loop.index-1] == 255 -%}
+                        <pre style="border: 1px solid #f36812">
+                    {%- elif rule_output[type.name][rule.id]['ret_code'][0] == 254 -%}
+                        <pre style="border: 1px solid #a901bd">
+                    {%- elif rule_output[type.name][rule.id]['ret_code'][loop.index-1] == 0 -%}
+                        <pre style="border: 1px solid #5cb85c">
+                    {%- else -%}
+                        <pre style="border: 1px solid #d9534f">
+                    {%- endif -%}
+                        <code>
+                    {%- if '.sh' == r[-3:] -%}
+                        {%- include r -%}
+                    {%- else -%}
+                        #{{ r }}
+                    {%- endif -%}
+                        </code></pre>
+                </div>
+                {% if rule_output[type.name][rule.id]['out'][loop.index-1] %}
+                <div class="auditoutput">
+                    <span class="label label-info">Command Output:</span>
+                    <pre><code>{{ rule_output[type.name][rule.id]['out'][loop.index-1] }}</code></pre>
+                </div>
+                {% elif rule_output[type.name][rule.id]['ret_status'] == 'timeout' %}
+                <div class="audittimeout">
+                    <span class="label label-timeout">Command Timeout Exceeded</span>
+                    <div><br></div>
+                </div>
+                {% elif rule_output[type.name][rule.id]['err'][loop.index-1] %}
+                <div class="auditterror">
+                    <span class="label label-error">Command Error:</span>
+                    <pre><code>{{ rule_output[type.name][rule.id]['err'][loop.index-1] }}</code></pre>
+                </div>
+                {% else %}
+                <span class="label label-warning">No Output</span>
+                <div><br></div>
+                {%- endif -%}
+                {%- endfor -%}
+            </td>
+        </tr>
+        {% if rule.remed %}
+        <tr>
+            <td colspan="2">
+                {% for r in rule.remed %}
+                {% if '.sh' == rule.remed[loop.index-1][-3:] %}
+                <span class="label label-success">Remediation Script:</span>
+                {%- else -%}
+                <span class="label label-success">Remediation Command:</span>
+                {%- endif -%}
+                <div class="remediation">
+                    {% if '.sh' == r[-3:] %}
+                    <pre><code>{% include r %}</code></pre>
+                    {%- else -%}
+                    <pre><code>#{{ r }}</code></pre>
+                    {%- endif -%}
+                </div>
+                {%- endfor -%}
+            </td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+</div>

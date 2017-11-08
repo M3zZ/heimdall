@@ -1,0 +1,7 @@
+{% set title = "Set the SELinux Policy" %}
+
+{% set description = "Configure SELinux to meet or exceed the default targeted policy, which constrains daemons and system software only." %}
+
+{% set rationale = "Security configuration requirements vary from site to site. Some sites may mandate a policy that is stricter than the default policy, which is perfectly acceptable. This item is intended to ensure that at least the default recommendations are met." %}
+
+{% include 'wiki_template.jinja' with context %}

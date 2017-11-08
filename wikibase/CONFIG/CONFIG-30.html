@@ -1,0 +1,7 @@
+{% set title = "Remove SETroubleshoot" %}
+
+{% set description = "The SETroubleshoot service notifies desktop users of SELinux denials through a user-friendly interface. The service provides important information around configuration errors, unauthorized intrusions, and other potential errors." %}
+
+{% set rationale = "The SETroubleshoot service is an unnecessary daemon to have running on a server, especially if X Windows is disabled." %}
+
+{% include 'wiki_template.jinja' with context %}

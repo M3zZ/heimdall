@@ -1,0 +1,7 @@
+{% set title = "Disable IPv6 Redirect Acceptance" %}
+
+{% set description = "This setting prevents the system from accepting ICMP redirects. ICMP redirects tell the system about alternate routes for sending traffic." %}
+
+{% set rationale = "It is recommended that systems not accept ICMP redirects as they could be tricked into routing traffic to compromised machines. Setting hard routes within the system (usually a single default route to a trusted router) protects the system from bad routes." %}
+
+{% include 'wiki_template.jinja' with context %}

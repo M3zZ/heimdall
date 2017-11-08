@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/heimdall.css' %}">
+    <script type="text/javascript" src="{% static 'js/heimdall.js' %}"></script>
+    <title>heimdall main page</title>
+</head>
+<body>
+<div class="globalmenu">
+    <ul class="menuitems">
+        <li><a href="/heimdall">Overview</a></li>
+        <li><a href="item=hostsgroup&action=overview">HostsGroups</a></li>
+        <li><a href="item=host&action=overview">Hosts</a></li>
+        <li><a href="item=type&action=overview">Type</a></li>
+        <li><a href="item=rule&action=overview">Rules</a></li>
+        <li><a href="item=profile&action=overview">Profiles</a></li>
+        <li><a href="item=audit&action=overview">Audits</a></li>
+        <ul class="underbar">
+            <li></li>
+        </ul>
+    </ul>
+</div>
+<div id="content" class="content">
+    <div class="dynamic-window-detail">
+        <div class="dynamic-window-header">
+            <img src="{% static 'img/'|add:item|add:'.jpg' %}">
+            <h1 class="dynamic-window-title">{{ item|upper }}</h1>
+        </div>
+        {% if item != 'overview' %}
+        <div class="dynamic-window-object-menu">
+            <ul class="dynamic-window-object-menuitems">
+                <li><a href="item={{ item }}&action=overview">Overview</a></li>
+                <li><a href="item={{ item }}&action=list">List</a></li>
+                <li><a href="item={{ item }}&action=add">Add</a></li>
+                <li><a href="item={{ item }}&action=update">Update</a></li>
+                <ul class="dynamic-window-object-menuitems-underbar">
+                </ul>
+            </ul>
+            <span class="dynamic-window-subtitle">{{ item|title }} {{ action|title }}</span>
+        </div>
+        {% endif %}
+        {% if action == 'add' %}
+        {% include "add.html" with item=item form=form %}
+        {% elif action == 'update' %}
+        {% include "update.html" with item=item form=form data=data%}
+        {% elif action == 'list' %}
+        {% include "list.html" with item=item %}
+        {% elif action == 'detail' %}
+        {% include "detail.html" with item=item data=data %}
+        {% else %}
+        {% include "overview.html" with item=item %}
+        {% endif %}
+    </div>
+</div>
+</body>
+</html>

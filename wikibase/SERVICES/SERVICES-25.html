@@ -1,0 +1,7 @@
+{% set title = "Remove LDAP" %}
+
+{% set description = "The Lightweight Directory Access Protocol (LDAP) was introduced as a replacement for NIS/YP. It is a service that provides a method for looking up information from a central database. The default client/server LDAP application for CentOS is OpenLDAP." %}
+
+{% set rationale = "If the server will not need to act as an LDAP client or server, it is recommended that the software be disabled to reduce the potential attack surface." %}
+
+{% include 'wiki_template.jinja' with context %}

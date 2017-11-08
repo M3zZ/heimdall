@@ -1,0 +1,13 @@
+{% set title = "Set Idle Timeout Interval for User Login" %}
+
+{% set description = "The two options <code>ClientAliveInterval</code> and
+<code>ClientAliveCountMax</code> control the timeout of ssh sessions. When the
+<code>ClientAliveInterval</code> variable is set, ssh sessions that have no activity for the specified length of time are terminated. When the
+<code>ClientAliveCountMax</code> variable is set, sshd will send client alive messages at every <code>ClientAliveInterval</code> interval. When the number of consecutive client alive messages are sent with no response from the client, the ssh session is terminated. For example, if the
+<code>ClientAliveInterval</code> is set to 15 seconds and the
+<code>ClientAliveCountMax</code> is set to 3, the client ssh session will be terminated after 45 seconds of idle time." %}
+
+{% set rationale = "Having no timeout value associated with a connection could allow an unauthorized user access to another user's ssh session (e.g. user walks away from their computer and doesn't lock the screen). Setting a timeout value at least reduces the risk of this happening.. While the recommended setting is 300 seconds (5 minutes), set this timeout value based on site policy. The recommended setting for
+<code>ClientAliveCountMax</code> is 0. In this case, the client session will be terminated after 5 minutes of idle time and no keepalive messages will be sent." %}
+
+{% include 'wiki_template.jinja' with context %}

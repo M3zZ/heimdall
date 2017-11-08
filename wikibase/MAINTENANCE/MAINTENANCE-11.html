@@ -1,0 +1,7 @@
+{% set title = "Ensure Password Fields are Not Empty" %}
+
+{% set description = "An account with an empty password field means that anybody may log in as that user without providing a password." %}
+
+{% set rationale = "All accounts must have passwords or be locked to prevent the account from being used by an unauthorized user." %}
+
+{% include 'wiki_template.jinja' with context %}

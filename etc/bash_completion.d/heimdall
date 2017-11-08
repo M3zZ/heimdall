@@ -1,0 +1,785 @@
+__heimdall_linkopts()
+{	
+    case $1 in
+        rule)
+            case $prev in
+                    --help)
+                        ;;
+                    --profile)
+                        opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/profiles/*.yml)
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    --type)
+                        opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/rules/*.yml)
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    --id)
+                        opts=$(seq 1 30)
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    *)
+                        opts='--type --id --profile --all'
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                esac
+                ;;
+        *)
+            opts='rule --help'
+            COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+            ;;
+    esac
+    return
+}
+
+__heimdall_moveopts()
+{
+    case $1 in
+        rule)
+            case $prev in
+                --help)
+                    ;;
+                --newtype)
+                    opts='""'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --type)
+                    opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/rules/*.yml)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --id)
+                    opts=$(seq 1 30)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                *)
+                    opts='--type --id --newtype --help'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+            esac
+            ;;
+        host)
+            case $prev in
+                --help)
+                    ;;
+                --plateform)
+                    opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/hosts/*.yml)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --name)
+                    opts=$(opts=$(awk -F': ' '/^[ ].*name: /{print $NF}' /opt/heimdall/conf/hosts/*.yml 2>/dev/null))
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --env)
+                    opts=$(awk -F': ' '/^environment: /{print $NF}' /opt/heimdall/conf/hosts/*.yml 2>/dev/null)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --newplateform)
+                    opts=''
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --newenv)
+                    opts=$(awk -F': ' '/^environment: /{print $NF}' /opt/heimdall/conf/hosts/*.yml 2>/dev/null)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                *)
+                    opts='--name --plateform --newplateform --newenv --help'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+            esac
+            ;;
+        *)
+            opts='rule host --help'
+            COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+            ;;
+    esac
+    return
+}
+
+__heimdall_updateopts()
+{
+
+    case $1 in
+        rule)
+            case $prev in
+                --help)
+                    ;;
+                --type)
+                    opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/rules/*.yml)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --desc|--auditcmd|--remedcmd)
+                    opts='""'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --auditscript)
+                    opts=$(/bin/ls /opt/heimdall/conf/scripts/audit/)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --remedscript)
+                    opts=$(/bin/ls /opt/heimdall/conf/scripts/remediation/)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --id)
+                    opts=$(seq 1 30)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                *)
+                    opts='--type --desc --auditcmd --remedcmd --auditscript --remedscript --id --help'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+            esac
+            ;;
+        profile)
+            case $prev in
+                --help)
+                    ;;
+                --profile)
+                    opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/profiles/*.yml)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --desc|--newname)
+                    opts='""'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                *)
+                    opts='--profile --desc --newname --help'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+            esac
+            ;;
+        host)
+            case $prev in
+                --help)
+                    ;;
+                --name)
+                    opts=$(awk -F': ' '/^[ ].*name: /{print $NF}' /opt/heimdall/conf/hosts/*.yml 2>/dev/null)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --account|--desc|--ip|--newname)
+                    opts='""'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --plateform)
+                    opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/hosts/*.yml 2>/dev/null)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                *)
+                    opts='--account --name --newname --plateform --ip --desc --help'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+            esac
+            ;;
+        type)
+            case $prev in
+                --help)
+                    ;;
+                --type)
+                    opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/rules/*.yml)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --desc|--newname)
+                    opts='""'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                *)
+                    opts='--type --desc --newname --help'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+            esac
+            ;;
+        plateform)
+            case $prev in
+                --help)
+                    ;;
+                --plateform)
+                    opts='$(basename -s .yml < /bin/ls /opt/heimdall/conf/hosts/*.yml)'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --desc|--newname)
+                    opts='""'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                *)
+                    opts='--newname --desc --plateform --help'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+            esac
+            ;;
+        *)
+            opts='rule profile plateform type host --help'
+            COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+            ;;
+    esac
+    return
+}
+
+__heimdall_addopts()
+{
+    case $1 in
+        rule)
+            case $prev in
+                    --help)
+                        ;;
+                    --type)
+                        opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/rules/*.yml)
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    --desc|--auditcmd|--remedcmd)
+                        opts='""'
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    --auditscript)
+                        opts=$(/bin/ls /opt/heimdall/conf/scripts/audit/)
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    --remedscript)
+                        opts=$(/bin/ls /opt/heimdall/conf/scripts/remediation/)
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    *)
+                        opts='--type --desc --auditcmd --remedcmd --auditscript --remedscript --help'
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                esac
+                ;;
+        type)
+            case $prev in
+                --help)
+                    ;;
+                --type)
+                    opts='""'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --desc)
+                    opts='""'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                *)
+                    opts='--type --desc --help'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+            esac
+            ;;
+        profile)
+            case $prev in
+                --help)
+                    ;;
+                --profile)
+                    opts='""'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --desc)
+                    opts='""'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                *)
+                    opts='--profile --desc --help'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+            esac
+            ;;
+        plateform)
+            case $prev in
+                --help)
+                    ;;
+                --plateform)
+                    opts='""'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --desc)
+                    opts='""'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --env)
+                    opts='""'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                *)
+                    opts='--env --desc --plateform --help'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+            esac
+            ;;
+        host)
+            case $prev in
+                    --help)
+                        ;;
+                    --name|--desc|--account|--ip|--distribution|--kernel)
+                        opts='""'
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    --plateform)
+                        opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/hosts/*.yml)
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    --env)
+                        opts=$(awk -F': ' '/^environment: /{print $NF}' /opt/heimdall/conf/hosts/*.yml 2>/dev/null)
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    *)
+                        opts='--account --ip --name --desc --plateform --env --distribution --kernel --help'
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                esac
+                ;;
+        script)
+            case $prev in
+                --help)
+                    ;;
+                --type)
+                    opts='audit remediation'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --name)
+                    opts='""'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                *)
+                    opts='--type --path --name --help'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+            esac
+            ;;
+        *)
+            opts='rule profile plateform script type host --help'
+            COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+            ;;
+    esac
+    return
+
+}
+
+__heimdall_removeopts()
+{
+    case $1 in
+        rule)
+            case $prev in
+                --help)
+                    ;;
+                --type)
+                    opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/rules/*.yml)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --id)
+                    opts=$(seq 1 30)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                *)
+                    opts='--type --id --all --help'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+            esac
+            ;;
+        type)
+            case $prev in
+                --help)
+                    ;;
+                --type)
+                    opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/rules/*.yml)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                *)
+                    opts='--type --help'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+            esac
+            ;;
+        profile)
+            case $prev in
+                --help)
+                    ;;
+                --profile)
+                    opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/profiles/*.yml)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                *)
+                    opts='--profile --help'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+            esac
+            ;;
+        plateform)
+            case $prev in
+                    --help)
+                        ;;
+                    --plateform)
+                        opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/hosts/*.yml)
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    *)
+                        opts='--plateform --help'
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+            esac
+            ;;
+        host)
+            case $prev in
+                --help)
+                    ;;
+                --plateform)
+                    opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/hosts/*.yml)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --name)
+                    opts=$(awk -F': ' '/^[ ].*name: /{print $NF}' /opt/heimdall/conf/hosts/*.yml 2>/dev/null)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --env)
+                    opts=$(awk -F': ' '/^environment: /{print $NF}'/opt/heimdall/conf/hosts/*.yml 2>/dev/null)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                *)
+                    opts='--name --id --all -help'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+            esac
+            ;;
+        script)
+            case $prev in
+                    --help)
+                        ;;
+                    --type)
+                        opts='audit remediation'
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    --name)
+                        opts=$(/bin/ls /opt/heimdall/conf/scripts/{audit,remediation})
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    *)
+                        opts='--type --name --help'
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+            esac
+            ;;
+        *)
+            opts='rule profile plateform script type host --help'
+            COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+            ;;
+    esac
+    return
+}
+
+
+__heimdall_getopts()
+{
+    case $1 in
+        rule)
+            case $prev in
+                --help)
+                    ;;
+                --type)
+                    opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/rules/*.yml)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --id)
+                    opts=$(seq 1 30)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                *)
+                    opts='--type --id --help'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+            esac
+            ;;
+            type)
+                case $prev in
+                    --help)
+                        ;;
+                    --type)
+                        opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/rules/*.yml)
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    *)
+                        opts='--type --help'
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                esac
+                ;;
+            profile)
+                case $prev in
+                        --help)
+                            ;;
+                        --profile)
+                            opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/profiles/*.yml)
+                            COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                            ;;
+                        --type)
+                            opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/rules/*.yml)
+                            COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                            ;;
+                        --id)
+                            opts=$(awk -F': ' '/^id: /{print $NF}' heimdall/conf/profiles/*.yml 2>/dev/null)
+                            COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                            ;;
+                        *)
+                            opts='--type --id --profile --help'
+                            COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                            ;;
+                esac
+                ;;
+            plateform)
+                case $prev in
+                    --help)
+                        ;;
+                    --plateform)
+                        opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/hosts/*.yml)
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    --id)
+                        opts=$(awk -F': ' '/^id: /{print $NF}' /opt/heimdall/conf/hosts/*.yml 2>/dev/null)
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    --env)
+                        opts=$(awk -F': ' '/^environment: /{print $NF}'/opt/heimdall/conf/hosts/*.yml 2>/dev/null)
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    *)
+                        opts='--env --id --plateform --help'
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                esac
+                ;;
+            host)
+                case $prev in
+                    --help)
+                        ;;
+                    --name)
+                        opts=$(awk -F': ' '/^[ ].*name: /{print $NF}' /opt/heimdall/conf/hosts/*.yml 2>/dev/null)
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    --id)
+                        opts=$(awk -F': ' '/^[ ].*id: /{print $NF}' /opt/heimdall/conf/hosts/*.yml 2>/dev/null)
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    --account)
+                        opts=$(awk -F': ' '/^[ ].*account: /{print $NF}' /opt/heimdall/conf/hosts/*.yml 2>/dev/null)
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    --status)
+                        opts='configured unconfigured'
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    --env)
+                        opts=$(awk -F': ' '/^environment: /{print $NF}' /opt/heimdall/conf/hosts/*.yml 2>/dev/null)
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    --ip)
+                        opts=$(awk -F': ' '/^[ ].*ip: /{print $NF}' /opt/heimdall/conf/hosts/*.yml 2>/dev/null)
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    --plateform)
+                        opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/hosts/*.yml 2>/dev/null)
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    --distribution)
+                        opts=$(awk -F': ' '/^[ ].*distribution: /{print $NF}' /opt/heimdall/conf/hosts/*.yml 2>/dev/null)
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    --kernel)
+                        opts=$(awk -F': ' '/^[ ].*kernel_version: /{print $NF}' /opt/heimdall/conf/hosts/*.yml 2>/dev/null)
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    *)
+                        opts='--account --id --name --status --plateform --env --ip --distribution --kernel --help'
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    esac
+                    ;;
+            script)
+                case $prev in
+                    --help)
+                        ;;
+                    --type)
+                        opts='audit remediation'
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                    *)
+                        opts='--type --help'
+                        COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                        ;;
+                esac
+                ;;
+            *)
+                opts='rule profile plateform script type host --help'
+                COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                ;;
+    esac
+    return
+}
+
+__heimdall_auditopts()
+{
+
+	case $1 in
+        run)
+            case $prev in
+                --help)
+                    ;;
+                --plateform)
+                    opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/hosts/*.yml)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --env)
+                    opts=$(awk -F': ' '/^environment: /{print $NF}' /opt/heimdall/conf/hosts/*.yml 2>/dev/null)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --hosts)
+                    opts=$(awk -F': ' '/^[ ].*name: /{print $NF}' /opt/heimdall/conf/hosts/*.yml 2>/dev/null)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                --profile)
+                    opts=$(basename -s .yml < /bin/ls /opt/heimdall/conf/profiles/*.yml)
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+                *)
+                    opts='--profile --plateform --hosts --help'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    ;;
+            esac
+            ;;
+        *)
+            opts='run --help'
+            COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+            ;;
+        esac
+        return
+}
+
+__heimdall_opts()
+{
+# $1 = main command (get/add/link/remove/move/unlink/update/audit)
+# $2 = object (rule/host/plateform/run/script/type)
+
+case $1 in
+    --help)
+        ;;
+	get)
+		__heimdall_getopts $2
+		;;
+	add)
+		__heimdall_addopts $2
+		;;
+	link|unlink)
+		__heimdall_linkopts $2
+		;;
+	move)
+		__heimdall_moveopts $2
+		;;
+	update) 
+		__heimdall_updateopts $2
+		;;
+	remove)
+		__heimdall_removeopts $2
+		;;
+	audit)
+		__heimdall_auditopts $2
+		;;
+	*)
+		;;
+esac
+return 0
+
+}
+
+__heimdall()
+{
+	local cur prev
+	heimdall=${COMP_WORDS[0]}
+	cur="${COMP_WORDS[COMP_CWORD]}"
+	prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+	case ${COMP_WORDS[1]} in
+        --help)
+            ;;
+		get|add|remove)	
+			case ${COMP_WORDS[2]} in
+				--help)
+					;;
+				rule|profile|plateform|script|type|host)
+					__heimdall_opts "${COMP_WORDS[1]}" "${COMP_WORDS[2]}"
+					return 0
+					;;
+				run)
+					__heimdall_opts "${COMP_WORDS[1]}" "${COMP_WORDS[2]}"
+					return 0
+					;;
+				*)
+					opts='rule profile plateform script type host --help'
+                        		COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+					return 0
+					;;
+			esac
+		;;
+		update)
+            case ${COMP_WORDS[2]} in
+                --help)
+                    ;;
+                rule|profile|plateform|type|host)
+                    __heimdall_opts "${COMP_WORDS[1]}" "${COMP_WORDS[2]}"
+                    return 0
+                    ;;
+                run)
+                    __heimdall_opts "${COMP_WORDS[1]}" "${COMP_WORDS[2]}"
+                    return 0
+                    ;;
+                *)
+                    opts='rule profile plateform type host --help'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    return 0
+                    ;;
+            esac
+            ;;
+		move)
+            case ${COMP_WORDS[2]} in
+                --help)
+                    ;;
+                rule|host)
+                    __heimdall_opts "${COMP_WORDS[1]}" "${COMP_WORDS[2]}"
+                    return 0
+                    ;;
+                *)
+                    opts='rule host --help'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    return 0
+                    ;;
+            esac
+            ;;
+        link|unlink)
+            case ${COMP_WORDS[2]} in
+                --help)
+                    ;;
+                rule)
+                    __heimdall_opts "${COMP_WORDS[1]}" "${COMP_WORDS[2]}"
+                    return 0
+                    ;;
+                *)
+                    opts='rule --help'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    return 0
+                    ;;
+            esac
+            ;;
+		audit)
+            case ${COMP_WORDS[2]} in
+                --help)
+                    ;;
+                run)
+                    __heimdall_opts "${COMP_WORDS[1]}" "${COMP_WORDS[2]}"
+                    return 0
+                    ;;
+                *)
+                    opts='run --help'
+                    COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                    return 0
+                    ;;
+            esac
+            ;;
+		*)
+            opts='add get update link unlink remove move audit --help'
+            COMPREPLY=($(compgen -W '${opts}' -- ${cur}))
+                ;;
+	esac
+	return 0
+} 
+
+complete -F __heimdall heimdall

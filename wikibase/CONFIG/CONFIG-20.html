@@ -1,0 +1,9 @@
+{% set title = "Disable Mounting of squashfs Filesystems" %}
+
+{% set description = "The
+<code>squashfs</code> filesystem type is a compressed read-only Linux filesystem embedded in small footprint systems (similar to
+<code>cramfs</code> ). A <code>squashfs</code> image can be used without having to first decompress the image." %}
+
+{% set rationale = "Removing support for unneeded filesystem types reduces the local attack surface of the server. If this filesystem type is not needed, disable it." %}
+
+{% include 'wiki_template.jinja' with context %}

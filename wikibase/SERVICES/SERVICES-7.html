@@ -1,0 +1,8 @@
+{% set title = "Remove tftp" %}
+
+{% set description = "Trivial File Transfer Protocol (TFTP) is a simple file transfer protocol, typically used to automatically transfer configuration or boot files between machines. TFTP does not support authentication and can be easily hacked. The package
+<code>tftp</code> is a client program that allows for connections to a <code>tftp</code> server." %}
+
+{% set rationale = "It is recommended that TFTP be removed, unless there is a specific need for TFTP (such as a boot server). In that case, use extreme caution when configuring the services." %}
+
+{% include 'wiki_template.jinja' with context %}

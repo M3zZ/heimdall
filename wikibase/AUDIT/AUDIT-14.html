@@ -1,0 +1,9 @@
+{% set title = "Collect Session Initiation Information" %}
+
+{% set description = "Monitor session initiation events. The parameters in this section track changes to the files associated with session events. The file
+<code>/var/run/utmp</code> file tracks all currently logged in users. The
+<code>/var/log/wtmp</code> file tracks logins, logouts, shutdown and reboot events. All audit records will be tagged with the identifier 'session.'" %}
+
+{% set rationale = "Monitoring these files for changes could alert a system administrator to logins occurring at unusual hours, which could indicate intruder activity (i.e. a user logging in at a time when they do not normally log in)." %}
+
+{% include 'wiki_template.jinja' with context %}

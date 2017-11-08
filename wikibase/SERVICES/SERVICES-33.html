@@ -1,0 +1,7 @@
+{% set title = "Remove SNMP Server" %}
+
+{% set description = "The Simple Network Management Protocol (SNMP) server is used to listen for SNMP commands from an SNMP management system, execute the commands or collect the information and then send results back to the requesting system." %}
+
+{% set rationale = "The SNMP server communicates using SNMP v1, which transmits data in the clear and does not require authentication to execute commands. Unless absolutely necessary, it is recommended that the SNMP service not be used." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,8 @@
+{% set title = "Disable chargen-stream" %}
+
+{% set description = "
+<code>chargen-stream</code> is a network service that responds with 0 to 512 ASCII characters for each connection it receives. This service is intended for debugging and testing purposes. It is recommended that this service be disabled." %}
+
+{% set rationale = "Disabling this service will reduce the remote attack surface of the system." %}
+
+{% include 'wiki_template.jinja' with context %}

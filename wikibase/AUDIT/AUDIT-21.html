@@ -1,0 +1,13 @@
+{% set title = "Collect System Administrator Actions (sudolog)" %}
+
+{% set description = "Monitor the
+<code>sudo</code> log file. If the system has been properly configured to disable the use of the
+<code>su</code> command and force all administrators to have to log in first and then use
+<code>sudo</code> to execute privileged commands, then all administrator commands will be logged to <code>/var/log/sudo.log</code>. Any time a command is executed, an audit event will be triggered as the
+<code>/var/log/sudo.log</code> file will be opened for write and the executed administration command will be written to the log." %}
+
+{% set rationale = "Changes in
+<code>/var/log/sudo.log</code> indicate that an administrator has executed a command or the log file itself has been tampered with. Administrators will want to correlate the events written to the audit trail with the records written to
+<code>/var/log/sudo.log</code> to verify if unauthorized commands have been executed." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,201 @@
+desc: System Maintenance auditing rules
+id: 7
+name: MAINTENANCE
+path: /home/tolivier-adm/WinDocuments/tolivier/Documents/heimdall/conf/rules/MAINTENANCE.yml
+rules:
+-   audit:
+    - rpm -Va --nomtime --nosize --nomd5 --nolinkto
+    desc: Verify system file permissions.
+    id: 1
+    remed: ''
+    wikipage: MAINTENANCE-1.html
+-   audit:
+    - stat -L -c '%a %u %g' /etc/passwd|awk '{if ($1 == 644 && $2 == 0 && $3 == 0){print
+        $1" "$2" "$3;exit 0}else exit 1}'
+    desc: Verify /etc/passwd permissions.
+    id: 2
+    remed:
+    - /bin/chmod 644 /etc/passwd
+    - /bin/chown root:root /etc/passwd
+    wikipage: MAINTENANCE-2.html
+-   audit:
+    - stat -L -c '%a %u %g' /etc/group|awk '{if ($1 == 644 && $2 == 0 && $3 == 0){print
+        $1" "$2" "$3;exit 0}else exit 1}'
+    desc: Verify /etc/group permissions.
+    id: 3
+    remed:
+    - /bin/chmod 644 /etc/group
+    - /bin/chown root:root /etc/group
+    wikipage: MAINTENANCE-3.html
+-   audit:
+    - stat -L -c '%a %u %g' /etc/shadow|awk '{if ($1 == 644 && $2 == 0 && $3 == 0){print
+        $1" "$2" "$3;exit 0}else exit 1}'
+    desc: Verify /etc/shadow permissions.
+    id: 4
+    remed:
+    - /bin/chmod 644 /etc/shadow
+    - /bin/chown root:root /etc/shadow
+    wikipage: MAINTENANCE-4.html
+-   audit:
+    - stat -L -c '%a %u %g' /etc/gshadow|awk '{if ($1 == 644 && $2 == 0 && $3 == 0){print
+        $1" "$2" "$3;exit 0}else exit 1}'
+    desc: Verify /etc/gshadow permissions.
+    id: 5
+    remed:
+    - /bin/chmod 644 /etc/gshadow
+    - /bin/chown root:root /etc/gshadow
+    wikipage: MAINTENANCE-5.html
+-   audit:
+    - df -P --local|awk '{ if (NR!=1) print $6}'|xargs -I {} find {} -xdev -type f
+        -perm -0002
+    desc: Verify that no world writable files exist.
+    id: 6
+    remed: ''
+    wikipage: MAINTENANCE-6.html
+-   audit:
+    - df -P --local|awk '{ if (NR!=1) print $6}'|xargs -I {} find {} -xdev -nouser
+        -ls
+    desc: Verify that no un-owned files and directories exist.
+    id: 7
+    remed: ''
+    wikipage: MAINTENANCE-7.html
+-   audit:
+    - df -P --local|awk '{ if (NR!=1) print $6}'|xargs -I {} find {} -xdev -nogroup
+        -ls
+    desc: Verify that no un-grouped files and directories exist.
+    id: 8
+    remed: ''
+    wikipage: MAINTENANCE-8.html
+-   audit:
+    - df -P --local|awk '{ if (NR!=1) print $6}'|xargs -I {} find {} -xdev -type f
+        -perm 4000 -print
+    desc: Verify SUID system executables.
+    id: 9
+    remed:
+    - rpm -V $(rpm -qf /usr/bin/sudo)
+    wikipage: MAINTENANCE-9.html
+-   audit:
+    - df -P --local|awk '{ if (NR!=1) print $6}'|xargs -I {} find {} -xdev -type f
+        -perm 2000 -print
+    desc: Verify SIGD system executables.
+    id: 10
+    remed:
+    - rpm -V $(rpm -qf /usr/bin/sudo)
+    wikipage: MAINTENANCE-10.html
+-   audit:
+    - awk -F':' '($2 == \"\" ) { print $1 \" does not have a password\";exit 1}' /etc/shadow
+    desc: Verify that all user have a password.
+    id: 11
+    remed: ''
+    wikipage: MAINTENANCE-11.html
+-   audit:
+    - grep -v '^+ :' /etc/passwd > /dev/null
+    desc: Verify that /etc/passwd does not contain '+' entries.
+    id: 12
+    remed:
+    - sed -i 's/^+://g' /etc/passwd
+    wikipage: MAINTENANCE-12.html
+-   audit:
+    - grep -v '^+ :' /etc/shadow > /dev/null
+    desc: Verify that /etc/shadow does not contain '+' entries.
+    id: 13
+    remed:
+    - sed -i 's/^+://g' /etc/shadow
+    wikipage: MAINTENANCE-13.html
+-   audit:
+    - grep -v '^+ :' /etc/group > /dev/null
+    desc: Verify that /etc/group does not contain '+' entries.
+    id: 14
+    remed:
+    - sed -i 's/^+://g' /etc/group
+    wikipage: MAINTENANCE-14.html
+-   audit:
+    - awk -F':' '($3==0) {if ($1 != \"root\"){print $1;exit 1}}' /etc/passwd
+    desc: Verify that no UID 0 accounts exist other than root.
+    id: 15
+    remed: ''
+    wikipage: MAINTENANCE-15.html
+-   audit:
+    - check_rootpath_integrity.sh
+    desc: Verify root PATH integrity.
+    id: 16
+    remed: ''
+    wikipage: MAINTENANCE-16.html
+-   audit:
+    - check_home_permissions.sh
+    desc: Verify that user home directories permissions are correct.
+    id: 17
+    remed: ''
+    wikipage: MAINTENANCE-17.html
+-   audit:
+    - check_hiddenfiles_permissions.sh
+    desc: Verify that user hidden files permissions are correct.
+    id: 18
+    remed: ''
+    wikipage: MAINTENANCE-18.html
+-   audit:
+    - check_netrc_absence.sh
+    desc: Verify that user .netrc files does not exist.
+    id: 19
+    remed: ''
+    wikipage: MAINTENANCE-19.html
+-   audit:
+    - check_netrc_permissions.sh
+    desc: Verify that user .netrc files permissions are correct.
+    id: 20
+    remed: ''
+    wikipage: MAINTENANCE-20.html
+-   audit:
+    - check_forward_absence.sh
+    desc: Verify that user .forward files files does not exist.
+    id: 21
+    remed: ''
+    wikipage: MAINTENANCE-21.html
+-   audit:
+    - check_rhost_permissions.sh
+    desc: Verify that user .rhost files permissions are correct.
+    id: 22
+    remed: ''
+    wikipage: MAINTENANCE-22.html
+-   audit:
+    - check_groups_in_passwd.sh
+    desc: Verify that groups in /etc/passwd are defind in /etc/group.
+    id: 23
+    remed: ''
+    wikipage: MAINTENANCE-23.html
+-   audit:
+    - check_home_assigned.sh
+    desc: Verify that users are assigned valid home directories.
+    id: 24
+    remed: ''
+    wikipage: MAINTENANCE-24.html
+-   audit:
+    - check_home_owner.sh
+    desc: Verify user home directory ownership.
+    id: 25
+    remed: ''
+    wikipage: MAINTENANCE-25.html
+-   audit:
+    - check_duplicate_UID.sh
+    desc: Verify that duplicate UID does not exist.
+    id: 26
+    remed: ''
+    wikipage: MAINTENANCE-26.html
+-   audit:
+    - check_duplicate_username.sh
+    desc: Verify that duplicate user name does not exist.
+    id: 27
+    remed: ''
+    wikipage: MAINTENANCE-27.html
+-   audit:
+    - check_duplicate_GID.sh
+    desc: Verify that duplicate GID does not exist.
+    id: 28
+    remed: ''
+    wikipage: MAINTENANCE-28.html
+-   audit:
+    - check_duplicate_groupname.sh
+    desc: Verify that duplicate group name does not exist.
+    id: 29
+    remed: ''
+    wikipage: MAINTENANCE-29.html

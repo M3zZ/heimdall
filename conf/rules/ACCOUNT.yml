@@ -1,0 +1,61 @@
+desc: System accounts and local users Access auditing rules
+id: 6
+name: ACCOUNT
+path: /home/tolivier-adm/WinDocuments/tolivier/Documents/Heimdall/heimdall/conf/rules/ACCOUNT.yml
+rules:
+-   audit:
+    - grep '^PASS_MAX_DAYSs90' /etc/login.defs
+    - awk -F':' '($3 >= 1000) { print $1 }' /etc/passwd |xargs -I {} chage -l {}| awk -F':' '/Maximum/ {print $NF}'|grep -w 90
+    desc: Verify that password maximum expiration days is set.
+    id: 1
+    remed:
+    - sed -i 's/^PASS_MAX_DAYS.*/PASS_MAX_DAYS 90/g' /etc/login.defs
+    - awk -F':' '($3 >= 1000){ print $1}' /etc/passwd |xargs -I {} chage --maxdays 90 {}
+    wikipage: ACCOUNT-1.html
+-   audit:
+    - grep '^PASS_MIN_DAYS\s7' /etc/login.defs
+    - awk -F':' '($3 >= 1000){ print $1}' /etc/passwd | xargs -I {} chage -l {}|awk -F':' '/Minimum/ {print $NF}'|grep -w 7
+    desc: Verify that password minimum expiration days is set.
+    id: 2
+    remed:
+    - sed -i 's/^PASS_MIN_DAYS.*/PASS_MIN_DAYS 7/g' /etc/login.defs
+    - awk -F':' '($3 >= 1000){ print $1}' /etc/passwd |xargs -I {} chage --mindays 7 {}
+    wikipage: ACCOUNT-2.html
+-   audit:
+    - grep '^PASS_WARN_AGE\s7' /etc/login.defs
+    - awk -F':' '($3 >= 1000){ print $1}' /etc/passwd |xargs -I {} chage -l {}|awk -F':' '/warning/ {print $1 $NF}'|grep -w 7
+    desc: Verify that password expiring warning days is set.
+    id: 3
+    remed:
+    - sed -i 's/^PASS_WARN_AGE.*/PASS_WARN_AGE 7/g' /etc/login.defs
+    - awk -F':' '($3 >= 1000){ print $1}' /etc/passwd |xargs -I {} chage --warndays 7 {}
+    wikipage: ACCOUNT-3.html
+-   audit:
+    - awk -F':' '($1!=\"root\" && $1!=\"sync\" && $1!=\"shutdown\" && $1!=\"halt\" && $3<1000 && $7!=\"/sbin/nologin\") {if ($1 == \"\"){ res=0}else{print $1\" use  \"$NF;res=1}}END{exit res}' /etc/passwd
+    desc: Verify that system accounts doesnt have shell interpreter.
+    id: 4
+    remed:
+    - awk -F':' '($1!="root" && $1!="sync" && $1!="shutdown" && $1!="halt" && $3<1000 && $7!="/sbin/nologin") {print $1}' /etc/passwd|xargs -I {} /usr/sbin/usermod -s /sbin/nologin {}
+    wikipage: ACCOUNT-4.html
+-   audit:
+    - awk -F':' '/^root/ {print $4}' /etc/passwd|grep -w 0
+    desc: Verify that root has default group.
+    id: 5
+    remed:
+    - usermod -g 0 root
+    wikipage: ACCOUNT-5.html
+-   audit:
+    - grep -1 'umask 077' /etc/bashrc
+    - grep -1 'umask 077' /etc/profile
+    desc: Verify that default umask is set.
+    id: 6
+    remed:
+    - sed -i 's/umask 0[^0][0-9]$/umask 077/g' /etc/{bashrc,profile}
+    wikipage: ACCOUNT-6.html
+-   audit:
+    - useradd -D|awk -F'=' '/INACTIVE/ {if ($NF != 35){ print $NF;exit 1}else {print $NF;exit 0}}'
+    desc: Verify that inactive user accounts are locked.
+    id: 7
+    remed:
+    - useradd -D -f 35
+    wikipage: ACCOUNT-7.html

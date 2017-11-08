@@ -1,0 +1,256 @@
+desc: Operating System services auditing rules
+id: 2
+name: SERVICES
+path: /home/tolivier-adm/WinDocuments/tolivier/Documents/Heimdall/heimdall/conf/rules/SERVICES.yml
+rules:
+-   audit:
+    - rpm -q telnet-server | grep 'not installed'
+    desc: Verify that telnet-server is removed.
+    id: 1
+    remed:
+    - yum erase telnet-server -y
+    wikipage: SERVICES-1.html
+-   audit:
+    - rpm -q telnet | grep 'not installed'
+    desc: Verify that telnet is removed.
+    id: 2
+    remed:
+    - yum erase telnet-server -y
+    wikipage: SERVICES-2.html
+-   audit:
+    - rpm -q rsh-server | grep 'not installed'
+    desc: Verify that rsh-server is removed.
+    id: 3
+    remed:
+    - yum erase rsh-server -y
+    wikipage: SERVICES-3.html
+-   audit:
+    - rpm -q rsh | grep 'not installed'
+    desc: Verify that rsh is removed.
+    id: 4
+    remed:
+    - yum erase rsh -y
+    wikipage: SERVICES-4.html
+-   audit:
+    - rpm -q ypbind | grep 'not installed'
+    desc: Verify that ypbind is removed.
+    id: 5
+    remed:
+    - yum erase ypbind -y
+    wikipage: SERVICES-5.html
+-   audit:
+    - rpm -q ypserver | grep 'not installed'
+    desc: Verify that ypserver is removed.
+    id: 6
+    remed:
+    - yum erase ypserver -y
+    wikipage: SERVICES-6.html
+-   audit:
+    - rpm -q tftp | grep 'not installed'
+    desc: Verify that tftp is removed.
+    id: 7
+    remed:
+    - yum erase tftp -y
+    wikipage: SERVICES-7.html
+-   audit:
+    - rpm -q tftp-server | grep 'not installed'
+    desc: Verify that tftp-server is removed.
+    id: 8
+    remed:
+    - yum erase tftp-server -y
+    wikipage: SERVICES-8.html
+-   audit:
+    - rpm -q talk | grep 'not installed'
+    desc: Verify that talk is removed.
+    id: 9
+    remed:
+    - yum erase talk -y
+    wikipage: SERVICES-9.html
+-   audit:
+    - rpm -q talk-server | grep 'not installed'
+    desc: Verify that talk-server is removed.
+    id: 10
+    remed:
+    - yum erase talk-server -y
+    wikipage: SERVICES-10.html
+-   audit:
+    - rpm -q xinetd | grep 'not installed'
+    desc: Verify that xinetd is removed.
+    id: 11
+    remed:
+    - yum erase xinetd -y
+    wikipage: SERVICES-11.html
+-   audit:
+    - systemctl list-unit-files|awk '/chargen-dgram.service/ {if($NF == \"enabled\")exit 1;else exit 0}'
+    desc: Verify that chargen-dgram is disabled.
+    id: 12
+    remed:
+    - systemctl disabled chargen-dgram
+    wikipage: SERVICES-12.html
+-   audit:
+    - systemctl list-unit-files|awk '/chargen-stream.service/ {if($NF == \"enabled\")exit 1;else exit 0}'
+    desc: Verify that chargen-stream is disabled.
+    id: 13
+    remed:
+    - systemctl disabled chargen-stream
+    wikipage: SERVICES-13.html
+-   audit:
+    - systemctl list-unit-files|awk '/daytime-dgram.service/ {if($NF == \"enabled\")exit 1;else exit 0}'
+    desc: Verify that daytime-dgram is disabled.
+    id: 14
+    remed:
+    - systemctl disabled daytime-dgram
+    wikipage: SERVICES-14.html
+-   audit:
+    - systemctl list-unit-files|awk '/daytime-stream.service/ {if($NF == \"enabled\")exit 1;else exit 0}'
+    desc: Verify that daytime-stream is disabled.
+    id: 15
+    remed:
+    - systemctl disabled daytime-stream
+    wikipage: SERVICES-15.html
+-   audit:
+    - systemctl list-unit-files|awk '/echo-dgram.service/ {if($NF == \"enabled\")exit 1;else exit 0}'
+    desc: Verify that echo-dgram is disabled.
+    id: 16
+    remed:
+    - chkconfig echo-dgram off
+    wikipage: SERVICES-16.html
+-   audit:
+    - systemctl list-unit-files|awk '/echo-stream.service/ {if($NF == \"enabled\")exit 1;else exit 0}'
+    desc: Verify that echo-stream is disabled.
+    id: 17
+    remed:
+    - chkconfig echo-stream off
+    wikipage: SERVICES-17.html
+-   audit:
+    - systemctl list-unit-files|awk '/tcpmux-server.service/ {if($NF == \"enabled\")exit 1;else exit 0}'
+    desc: Verify that tcpmux-server is disabled.
+    id: 18
+    remed:
+    - chkconfig tcpmux-server off
+    wikipage: SERVICES-18.html
+-   audit:
+    - grep 'umask .*027' /etc/sysconfig/init
+    desc: Verify umask for daemon users.
+    id: 19
+    remed:
+    - echo 'umask 027' >> /etc/sysconfig/init
+    wikipage: SERVICES-19.html
+-   audit:
+    - ls -l /etc/systemd/system/default.target | grep graphical.target
+    - rpm -q xorg-x11-server-common | grep 'not installed'
+    desc: Verify that x11 is removed.
+    id: 20
+    remed:
+    - unlink /etc/lib/systemd/system/default.target
+    - ln -s /usr/lib/systemd/system/multi-user.target defaut.target
+    - yum erase xorg-x11-server-common -y
+    wikipage: SERVICES-20.html
+-   audit:
+    - systemctl list-unit-files|awk '/avahi-daemon.service/ {if($NF == \"enabled\")exit 1;else exit 0}'
+    desc: Verify that avahi-daemon is disabled.
+    id: 21
+    remed:
+    - systemctl disabled avahi-daemon
+    wikipage: SERVICES-21.html
+-   audit:
+    - systemctl list-unit-files|awk '/cups.service/ {if($NF == \"enabled\")exit 1;else exit 0}'
+    desc: Verify that cups is disabled.
+    id: 22
+    remed:
+    - systemctl disabled cups
+    wikipage: SERVICES-22.html
+-   audit:
+    - rpm -q dhcp | grep 'not installed'
+    desc: Verify that dhcp is removed.
+    id: 23
+    remed:
+    - yum erase dhcp -y
+    wikipage: SERVICES-23.html
+-   audit:
+    - grep 'restrict default' /etc/ntp.conf
+    - grep 'restrict -6 default' /etc/ntp.conf
+    - grep 'OPTIONS.*-u ntp :ntp' /etc/ntp.conf
+    desc: Verify that ntp is correctly configured.
+    id: 24
+    remed: ''
+    wikipage: SERVICES-24.html
+-   audit:
+    - rpm -q openldap-servers
+    - rpm -q openldap-clients
+    desc: Verify that ldap is removed.
+    id: 25
+    remed:
+    - yum erase openldap-servers -y
+    - yum erase openldap-clients -y
+    wikipage: SERVICES-25.html
+-   audit:
+    - systemctl list-unit-files|awk '/nfslock.service/ {if($NF == \"enabled\")exit 1;else exit 0}'
+    - systemctl list-unit-files|awk '/rpcgssd.service/ {if($NF == \"enabled\")exit 1;else exit 0}'
+    - systemctl list-unit-files|awk '/rpcbind.service/ {if($NF == \"enabled\")exit 1;else exit 0}'
+    - systemctl list-unit-files|awk '/rpcidmapd.service/ {if($NF == \"enabled\")exit 1;else exit 0}'
+    - systemctl list-unit-files|awk '/rpcsvcgssd.service/ {if($NF == \"enabled\")exit 1;else exit 0}'
+    desc: Verify that NFS and RPC are disabled.
+    id: 26
+    remed:
+    - systemctl disable nfslock
+    - systemctl disable rpcgssd
+    - systemctl disable rpcbind
+    - systemctl disable rpcidmapd
+    - systemctl disable rpcsvcgssd
+    wikipage: SERVICES-26.html
+-   audit:
+    - rpm -q bind | grep 'not installed'
+    desc: Verify that bind is removed.
+    id: 27
+    remed:
+    - yum erase bind -y
+    wikipage: SERVICES-27.html
+-   audit:
+    - rpm -q vsftpd | grep 'not installed'
+    desc: Verify that vsftpd is removed.
+    id: 28
+    remed:
+    - yum erase vsftpd -y
+    wikipage: SERVICES-28.html
+-   audit:
+    - rpm -q httpd | grep 'not installed'
+    desc: Verify that httpd is removed.
+    id: 29
+    remed:
+    - yum erase httpd -y
+    wikipage: SERVICES-29.html
+-   audit:
+    - rpm -q dovecot | grep 'not installed'
+    desc: Verify that dovecot is removed.
+    id: 30
+    remed:
+    - yum erase dovecot -y
+    wikipage: SERVICES-30.html
+-   audit:
+    - rpm -q samba | grep 'not installed'
+    desc: Verify that samba is removed.
+    id: 31
+    remed:
+    - yum erase samba -y
+    wikipage: SERVICES-31.html
+-   audit:
+    - rpm -q squid | grep 'not installed'
+    desc: Verify that squid is removed.
+    id: 32
+    remed:
+    - yum erase squid -y
+    wikipage: SERVICES-32.html
+-   audit:
+    - rpm -q net-snmp | grep 'not installed'
+    desc: Verify that net-snmp is removed.
+    id: 33
+    remed:
+    - yum erase net-snmp -y
+    wikipage: SERVICES-33.html
+-   audit:
+    - lsof -i :25|grep -oE ' localhost.*\(LISTEN\)$'
+    desc: Verify that MTA is only in local mode.
+    id: 34
+    remed: ''
+    wikipage: SERVICES-34.html

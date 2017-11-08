@@ -1,0 +1,9 @@
+{% set title = "Set Permissions on /etc/ssh/sshd_config" %}
+
+{% set description = "The
+<code>/etc/ssh/sshd_config</code> file contains configuration specifications for sshd . The command below sets the owner and group of the file to root." %}
+
+{% set rationale = "The
+<code>/etc/ssh/sshd_config</code> file needs to be protected from unauthorized changes by non-privileged users, but needs to be readable as this information is used with many non-privileged programs." %}
+
+{% include 'wiki_template.jinja' with context %}

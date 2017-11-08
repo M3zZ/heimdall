@@ -1,0 +1,9 @@
+{% set title = "Check Groups in /etc/passwd" %}
+
+{% set description = "Over time, system administration errors and changes can lead to groups being defined in <code>/etc/passwd</code> but not in
+<code>/etc/group</code>." %}
+
+{% set rationale = "Groups defined in the <code>/etc/passwd</code> file but not in the
+<code>/etc/group</code> file pose a threat to system security since group permissions are not properly managed." %}
+
+{% include 'wiki_template.jinja' with context %}

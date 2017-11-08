@@ -1,0 +1,8 @@
+{% set title = "Disable Mounting of jffs2 Filesystems" %}
+
+{% set description = "The
+<code>jffs2</code> (journaling flash filesystem 2) filesystem type is a log-structured filesystem used in flash memory devices." %}
+
+{% set rationale = "Removing support for unneeded filesystem types reduces the local attack surface of the server. If this filesystem type is not needed, disable it." %}
+
+{% include 'wiki_template.jinja' with context %}

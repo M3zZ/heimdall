@@ -1,0 +1,7 @@
+{% set title = "Disable TIPC" %}
+
+{% set description = "The Transparent Inter-Process Communication (TIPC) protocol is designed to provide communication between cluster nodes." %}
+
+{% set rationale = "If the protocol is not being used, it is recommended that kernel module not be loaded, disabling the service to reduce the potential attack surface." %}
+
+{% include 'wiki_template.jinja' with context %}

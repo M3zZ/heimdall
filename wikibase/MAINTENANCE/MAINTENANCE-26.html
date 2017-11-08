@@ -1,0 +1,9 @@
+{% set title = "Check for Duplicate UIDs" %}
+
+{% set description = "Although the
+<code>useradd</code> program will not let you create a duplicate User ID (UID), it is possible for an administrator to manually edit the
+<code>/etc/passwd</code> file and change the UID field." %}
+
+{% set rationale = "Users must be assigned unique UIDs for accountability and to ensure appropriate access protections." %}
+
+{% include 'wiki_template.jinja' with context %}

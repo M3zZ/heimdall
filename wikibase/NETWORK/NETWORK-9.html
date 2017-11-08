@@ -1,0 +1,9 @@
+{% set title = "Enable RFC-recommended Source Route Validation" %}
+
+{% set description = "Setting <code>net.ipv4.conf.all.rp_filter</code> and
+<code>net.ipv4.conf.default.rp_filter</code> to 1 forces the Linux kernel to utilize reverse path filtering on a received packet to determine if the packet was valid. Essentially, with reverse path filtering, if the return packet does not go out the same interface that the corresponding source packet came from, the packet is dropped (and logged if
+<code>log_martians</code> is set)." %}
+
+{% set rationale = "Setting these flags is a good way to deter attackers from sending your server bogus packets that cannot be responded to. One instance where this feature breaks down is if asymmetrical routing is employed. This is would occur when using dynamic routing protocols (bgp, ospf, etc) on your system. If you are using asymmetrical routing on your server, you will not be able to enable this feature without breaking the routing." %}
+
+{% include 'wiki_template.jinja' with context %}

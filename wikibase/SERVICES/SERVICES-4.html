@@ -1,0 +1,8 @@
+{% set title = "Remove rsh" %}
+
+{% set description = "The <code>rsh</code> package contains the client commands for the rsh services." %}
+
+{% set rationale = "These legacy clients contain numerous security exposures and have been replaced with the more secure SSH package. Even if the server is removed, it is best to ensure the clients are also removed to prevent users from inadvertently attempting to use these commands and therefore exposing their credentials. Note that removing the
+<code>rsh</code> package removes the clients for <code>rsh</code>, <code>rcp</code> and <code>rlogin</code>." %}
+
+{% include 'wiki_template.jinja' with context %}

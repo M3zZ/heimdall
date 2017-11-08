@@ -1,0 +1,14 @@
+{% set title = "Collect Kernel Module Loading and Unloading" %}
+
+{% set description = "Monitor the loading and unloading of kernel modules. The programs
+<code>insmod</code> (install a kernel module), <code>rmmod</code> (remove a kernel module), and
+<code>modprobe</code> (a more sophisticated program to load and unload modules, as well as some other features) control loading and unloading of modules. The
+<code>init_module</code> (load a module) and
+<code>delete_module</code> (delete a module) system calls control loading and unloading of modules. Any execution of the loading and unloading module programs and system calls will trigger an audit record with an identifier of 'modules'." %}
+
+{% set rationale = "Monitoring the use of <code>insmod</code>, <code>rmmod</code> and
+<code>modprobe</code> could provide system administrators with evidence that an unauthorized user loaded or unloaded a kernel module, possibly compromising the security of the system. Monitoring of the
+<code>init_module</code> and
+<code>delete_module</code> system calls would reflect an unauthorized user attempting to use a different program to load and unload modules." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,9 @@
+{% set title = "Verify Permissions on /etc/hosts.allow" %}
+
+{% set description = "The
+<code>/etc/hosts.allow</code> file contains networking information that is used by many applications and therefore must be readable for these applications to operate." %}
+
+{% set rationale = "It is critical to ensure that the
+<code>/etc/hosts.allow</code> file is protected from unauthorized write access. Although it is protected by default, the file permissions could be changed either inadvertently or through malicious actions. {{ rule.audit[-3:] }}" %}
+
+{% include 'wiki_template.jinja' with context %}

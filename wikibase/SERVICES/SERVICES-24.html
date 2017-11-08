@@ -1,0 +1,7 @@
+{% set title = "Configure Network Time Protocol (NTP)" %}
+
+{% set description = "The Network Time Protocol (NTP) is designed to synchronize system clocks across a variety of systems and use a source that is highly accurate. The version of NTP delivered with CentOS can be found at http://www.ntp.org. NTP can be configured to be a client and/or a server." %}
+
+{% set rationale = "It is recommended that physical systems and virtual guests lacking direct access to the physical host's clock be configured as NTP clients to synchronize their clocks (especially to support time sensitive security mechanisms like Kerberos). This also ensures log files have consistent time records across the enterprise, which aids in forensic investigations." %}
+
+{% include 'wiki_template.jinja' with context %}

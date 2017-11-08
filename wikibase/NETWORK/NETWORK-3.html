@@ -1,0 +1,7 @@
+{% set title = "Disable Source Routed Packet Acceptance" %}
+
+{% set description = "In networking, source routing allows a sender to partially or fully specify the route packets take through a network. In contrast, non-source routed packets travel a path determined by routers in the network. In some cases, systems may not be routable or reachable from some locations (e.g. private addresses vs. Internet routable), and so source routed packets would need to be used." %}
+
+{% set rationale = "Setting <code>net.ipv4.conf.all.accept_source_route</code> and <code>net.ipv4.conf.default.accept_source_route</code> to 0 disables the system from accepting source routed packets. Assume this server was capable of routing packets to Internet routable addresses on one interface and private addresses on another interface. Assume that the private addresses were not routable to the Internet routable addresses and vice versa. Under normal routing circumstances, an attacker from the Internet routable addresses could not use the server as a way to reach the private address servers. If, however, source routed packets were allowed, they could be used to gain access to the private address systems as the route could be specified, rather than rely on routing protocols that did not allow this routing." %}
+
+{% include 'wiki_template.jinja' with context %}

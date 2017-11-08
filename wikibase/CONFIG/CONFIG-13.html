@@ -1,0 +1,8 @@
+{% set title = "Add noexec Option to /dev/shm Partition" %}
+
+{% set description = "Set
+<code>noexec</code> on the shared memory partition to prevent programs from executing from there." %}
+
+{% set rationale = "Setting this option on a file system prevents users from executing programs from shared memory. This deters users from introducing potentially malicious software on the system." %}
+
+{% include 'wiki_template.jinja' with context %}

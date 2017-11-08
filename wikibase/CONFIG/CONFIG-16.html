@@ -1,0 +1,8 @@
+{% set title = "Disable Mounting of freevxfs Filesystems" %}
+
+{% set description = "The
+<code>freevxfs</code> filesystem type is a free version of the Veritas type filesystem. This is the primary filesystem type for HP-UX operating systems." %}
+
+{% set rationale = "Removing support for unneeded filesystem types reduces the local attack surface of the server. If this filesystem type is not needed, disable it." %}
+
+{% include 'wiki_template.jinja' with context %}

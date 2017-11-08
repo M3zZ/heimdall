@@ -1,0 +1,7 @@
+{% set title = "Check Permissions on User Home Directories" %}
+
+{% set description = "While the system administrator can establish secure permissions for users' home directories, the users can easily override these." %}
+
+{% set rationale = "Group or world-writable user home directories may enable malicious users to steal or modify other users' data or to gain another user's system privileges." %}
+
+{% include 'wiki_template.jinja' with context %}

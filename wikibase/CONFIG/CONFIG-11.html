@@ -1,0 +1,10 @@
+{% set title = "Add nodev Option to /dev/shm Partition" %}
+
+{% set description = "The <code>nodev</code> mount option specifies that the
+<code>/dev/shm</code> (temporary filesystem stored in memory) cannot contain block or character special devices." %}
+
+{% set rationale = "Since the
+<code>/dev/shm</code> filesystem is not intended to support devices, set this option to ensure that users cannot attempt to create special devices in
+<code>/dev/shm</code> partitions." %}
+
+{% include 'wiki_template.jinja' with context %}

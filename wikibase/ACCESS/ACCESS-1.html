@@ -1,0 +1,9 @@
+{% set title = "Enable anacron Daemon" %}
+
+{% set description = "The <code>anacron</code> daemon is used on systems that are not up 24x7. The
+<code>anacron</code> daemon will execute jobs that would have normally been run had the system not been down." %}
+
+{% set rationale = "Cron jobs may include critical security or administrative functions that need to run on a regular basis. Use this daemon on machines that are not up 24x7, or if there are jobs that
+need to be executed after the system has been brought back up after a maintenance window." %}
+
+{% include 'wiki_template.jinja' with context %}

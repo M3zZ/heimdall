@@ -1,0 +1,7 @@
+{% set title = "Remove the X Window System" %}
+
+{% set description = "The X Window system provides a Graphical User Interface (GUI) where users can have multiple windows in which to run programs and various add on. The X Window system is typically used on desktops where users login, but not on servers where users typically do not login." %}
+
+{% set rationale = "Unless your organization specifically requires graphical login access via the X Window System, remove the server to reduce the potential attack surface." %}
+
+{% include 'wiki_template.jinja' with context %}

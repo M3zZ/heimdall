@@ -1,0 +1,8 @@
+{% set title = "Set Sticky Bit on All World-Writable Directories" %}
+
+{% set description = "Setting the sticky bit on world writable directories prevents users from deleting or renaming files in that directory that are not owned by them." %}
+
+{% set rationale = "This feature prevents the ability to delete or rename files in world writable directories (such as
+<code>/tmp</code> ) that are owned by another user." %}
+
+{% include 'wiki_template.jinja' with context %}

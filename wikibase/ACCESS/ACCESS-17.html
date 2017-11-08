@@ -1,0 +1,9 @@
+{% set title = "Set SSH IgnoreRhosts to Yes" %}
+
+{% set description = "The <code>IgnoreRhosts</code> parameter specifies that <code>.rhosts</code> and
+<code>.shosts</code> files will not be used in <code>RhostsRSAAuthentication</code> or
+<code>HostbasedAuthentication</code>." %}
+
+{% set rationale = "Setting this parameter forces users to enter a password when authenticating with ssh." %}
+
+{% include 'wiki_template.jinja' with context %}

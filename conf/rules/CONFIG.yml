@@ -1,0 +1,259 @@
+desc: System configuration auditing rules
+id: 1
+name: CONFIG
+path: C:\Users\tolivier\Documents\Heimdall\heimdall\conf\rules\CONFIG.yml
+rules:
+-   audit:
+    - grep -w /tmp /etc/fstab
+    desc: Verify that there is a /tmp file partition in the /etc/fstab file.
+    id: 1
+    remed: ''
+    wikipage: CONFIG-1.html
+-   audit:
+    - grep -w '/tmp.*nodev' /etc/fstab
+    - mount | grep -e '\s/tmp\s' | grep nodev
+    desc: Verify that /tmp file partition has nodev option in /etc/fstab file.
+    id: 2
+    remed: ''
+    wikipage: CONFIG-2.html
+-   audit:
+    - grep -w '/tmp.*nosuid' /etc/fstab
+    - mount | grep '\s/tmp\s' | grep nosuid
+    desc: Verify that /tmp file partition has nosuid option in /etc/fstab file.
+    id: 3
+    remed: ''
+    wikipage: CONFIG-3.html
+-   audit:
+    - grep -w '/tmp.*noexec' /etc/fstab
+    - mount | grep '\s/tmp\s' | grep noexec
+    desc: Verify that /tmp file partition has noexec option in /etc/fstab file.
+    id: 4
+    remed: ''
+    wikipage: CONFIG-4.html
+-   audit:
+    - grep -w /var /etc/fstab
+    desc: Verify that there is a /var file partition in the /etc/fstab file.
+    id: 5
+    remed: ''
+    wikipage: CONFIG-5.html
+-   audit:
+    - grep -w '/tmp.*/var/tmp.*bind' /etc/fstab
+    - mount | grep -e 'tmp\s'|grep /var/tmp
+    desc: Verify that /var/tmp is bind with /tmp in the /etc/fstab file.
+    id: 6
+    remed:
+    - mount --bind /tmp /var/tmp
+    - echo '/tmp /var/tmp none bind 0 0' >> /etc/fstab
+    wikipage: CONFIG-6.html
+-   audit:
+    - grep -w '/var/log' /etc/fstab
+    desc: Verify that there is a /var/log file partition in the /etc/fstab file.
+    id: 7
+    remed: ''
+    wikipage: CONFIG-7.html
+-   audit:
+    - grep -w '/var/log/audit' /etc/fstab
+    desc: Verify that there is a /var/log/audit file partition in the /etc/fstab file.
+    id: 8
+    remed: ''
+    wikipage: CONFIG-8.html
+-   audit:
+    - grep -w '/home' /etc/fstab
+    desc: Verify that there is a /home file partition in the /etc/fstab file.
+    id: 9
+    remed: ''
+    wikipage: CONFIG-9.html
+-   audit:
+    - grep -w '/home.*nodev' /etc/fstab
+    - mount | grep /home|grep nodev
+    desc: Verify that /home file partition has nodev option in /etc/fstab file.
+    id: 10
+    remed:
+    - mount -o remount,nodev /home
+    wikipage: CONFIG-10.html
+-   audit:
+    - grep -w '/dev/shm.*nodev' /etc/fstab
+    - mount | grep /dev/shm | grep nodev
+    desc: Verify that /dev/shm file partition has nodev option in /etc/fstab file.
+    id: 11
+    remed:
+    - mount -o remount,nodev /dev/shm
+    wikipage: CONFIG-11.html
+-   audit:
+    - grep -w '/dev/shm.*nosuid' /etc/fstab
+    - mount | grep /dev/shm | grep nosuid
+    desc: Verify that /dev/shm file partition has nosuid option in /etc/fstab file.
+    id: 12
+    remed:
+    - mount -o remount,nosuid /dev/shm
+    wikipage: CONFIG-12.html
+-   audit:
+    - grep -w '/dev/shm.*noexec' /etc/fstab
+    - mount | grep /dev/shm | grep noexec
+    desc: Verify that /dev/shm file partition has noexec option in /etc/fstab file.
+    id: 13
+    remed:
+    - mount -o remount,noexec /dev/shm
+    wikipage: CONFIG-13.html
+-   audit:
+    - df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type d \( -perm -0002 -a ! -perm -1000 \)
+    desc: Verify that sticky bit is enable for all world-writable directories.
+    id: 14
+    remed:
+    - df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type d \( -perm -0002 -a ! -perm -1000 \) | xargs chmod a+t
+    wikipage: CONFIG-14.html
+-   audit:
+    - lsmod|awk '/^cramfs/ {if($0)exit 1;else exit 0}'
+    desc: Verify that file system cramfs is disabled.
+    id: 15
+    remed:
+    - echo 'install cramfs /bin/true' >> /etc/modprobe.d/BLACKLIST.conf
+    wikipage: CONFIG-15.html
+-   audit:
+    - lsmod|awk '/^freevxfs/ {if($0)exit 1;else exit 0}'
+    desc: Verify that file system freevxfs is disabled.
+    id: 16
+    remed:
+    - echo 'install freevxfs /bin/true' >> /etc/modprobe.d/BLACKLIST.conf
+    wikipage: CONFIG-16.html
+-   audit:
+    - lsmod|awk '/^jffs2/ {if($0)exit 1;else exit 0}'
+    desc: Verify that file system jffs2 is disabled.
+    id: 17
+    remed:
+    - echo 'install jffs2 /bin/true' >> /etc/modprobe.d/BLACKLIST.conf
+    wikipage: CONFIG-17.html
+-   audit:
+    - lsmod|awk '/^hfs/ {if($0)exit 1;else exit 0}'
+    desc: Verify that file system hfs is disabled.
+    id: 18
+    remed:
+    - echo 'install hfs /bin/true' >> /etc/modprobe.d/BLACKLIST.conf
+    wikipage: CONFIG-18.html
+-   audit:
+    - lsmod|awk '/^hfsplus/ {if($0)exit 1;else exit 0}'
+    desc: Verify that file system hfsplus is disabled.
+    id: 19
+    remed:
+    - echo 'install hfsplus /bin/true' >> /etc/modprobe.d/BLACKLIST.conf
+    wikipage: CONFIG-19.html
+-   audit:
+    - lsmod|awk '/^squashfs/ {if($0)exit 1;else exit 0}'
+    desc: Verify that file system squashfs is disabled.
+    id: 20
+    remed:
+    - echo 'install squashfs /bin/true' >> /etc/modprobe.d/BLACKLIST.conf
+    wikipage: CONFIG-20.html
+-   audit:
+    - lsmod|awk '/^udf/ {if($0)exit 1;else exit 0}'
+    desc: Verify that file system udf is disabled.
+    id: 21
+    remed:
+    - echo 'install udf /bin/true' >> /etc/modprobe.d/BLACKLIST.conf
+    wikipage: CONFIG-21.html
+-   audit:
+    - rpm -q gpg-pubkey --qf '%{summary}-%{version}-%{release}\n'
+    desc: Verify that CentOS GPG Key is correctly installed.
+    id: 22
+    remed:
+    - gpg --quiet --with-fingerprint /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+    wikipage: CONFIG-22.html
+-   audit:
+    - grep 'gpgcheck=1' /etc/yum.conf
+    desc: Verify that gpgcheck is enable.
+    id: 23
+    remed:
+    - sed -i 's/gpgcheck=0/gpgcheck=1/g' /etc/yum.conf
+    wikipage: CONFIG-23.html
+-   audit:
+    - rpm -qVa|awk '$2 != \"c\" {print $0}'
+    desc: Verify rpm package integrity.
+    id: 24
+    remed: ''
+    wikipage: CONFIG-24.html
+-   audit:
+    - rpm -q aide
+    desc: Verify that AIDE is installed.
+    id: 25
+    remed:
+    - /usr/sbin/aide --init -B 'database_out=file:/var/lib/aide/aide.db.gz'
+    - sed -i 's/PRELINK=.*/PRELINK=no/g' /etc/sysconfig/prelink
+    - /usr/sbin/prelink -ua
+    wikipage: CONFIG-25.html
+-   audit:
+    - crontab -u root -l |grep aide
+    desc: Verify the implementation of file integrity periodic execution.
+    id: 26
+    remed: ''
+    wikipage: CONFIG-26.html
+-   audit:
+    - grep selinux=0 /boot/grub2/grub.cfg
+    - grep enforcing=0 /boot/grub2/grub.cfg
+    desc: Verify that SELINUX is enabled in /boot/grub2/grub.cfg.
+    id: 27
+    remed:
+    - sed -i '/enforcing=0/d;/selinux=0/d' /boot/grub2/grub.cfg
+    wikipage: CONFIG-27.html
+-   audit:
+    - grep SELINUX=enforcing /etc/selinux/config
+    - /usr/sbin/sestatus|grep enabled
+    desc: Verify that SELINUX is enabled on boot.
+    id: 28
+    remed:
+    - sed -i 's/SELINUX=.*/SELINUX=enforcing/g' /etc/selinux/config
+    wikipage: CONFIG-28.html
+-   audit:
+    - grep SELINUX=targeted /etc/selinux/config
+    - /usr/sbin/sestatus|grep targeted
+    desc: Verify that SELINUX policy is enabled.
+    id: 29
+    remed:
+    - sed -i 's/SELINUXTYPE=.*/SELINUXTYPE=targeted/g' /etc/selinux/config
+    wikipage: CONFIG-29.html
+-   audit:
+    - rpm -q setroubleshoot | grep 'not installed'
+    desc: Verify that SELINUX troubleshooting guide is removed.
+    id: 30
+    remed:
+    - yum erase setroubleshoot -y
+    wikipage: CONFIG-30.html
+-   audit:
+    - rpm -q mcstrans  | grep 'not installed'
+    desc: Verify that mcstrans is removed.
+    id: 31
+    remed:
+    - yum erase mcstrans -y
+    wikipage: CONFIG-31.html
+-   audit:
+    - ps -eZ |awk '/initrc_t.*[^tr|ps|egrep|bash|awk]$/ {print $NF}'
+    desc: Verify unconfined daemon states.
+    id: 32
+    remed: ''
+    wikipage: CONFIG-32.html
+-   audit:
+    - stat -L -c '%a %u %g' /boot/grub2/grub.cfg|awk '{if ($1 == 600 && $2 == 0 && $3 == 0) print $1" "$2" "$3;else exit 1}'
+    desc: Verify rights on /boot/grub2/grub.cfg.
+    id: 33
+    remed:
+    - chown root:root /boot/grub2/grub. cfg
+    - chmod og-rwx /boot/grub2/grub.cfg
+    wikipage: CONFIG-33.html
+-   audit:
+    - sed -n '/^password/p;/^set\ssuperusers/p' /boot/grub2/grub.cfg
+    desc: Verify if boot loader password is set.
+    id: 34
+    remed: ''
+    wikipage: CONFIG-34.html
+-   audit:
+    - grep 'hard core.*0' /etc/security/limits.conf
+    - /sbin/sysctl fs.suid_dumpable|grep 0
+    desc: Verify that restrict core dumps is enabled.
+    id: 35
+    remed: ''
+    wikipage: CONFIG-35.html
+-   audit:
+    - /sbin/sysctl kernel.randomize_va_space|grep -E '[1-2]'
+    desc: Verify that ASLR is actived.
+    id: 36
+    remed: ''
+    wikipage: CONFIG-36.html

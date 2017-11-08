@@ -1,0 +1,10 @@
+{% set title = "Collect File Deletion Events by User" %}
+
+{% set description = "Monitor the use of system calls associated with the deletion or renaming of files and file attributes. This configuration statement sets up monitoring for the
+<code>unlink</code> (remove a file), <code>unlinkat</code> (remove a file attribute),
+<code>rename</code> (rename a file) and
+<code>renameat</code> (rename a file attribute) system calls and tags them with the identifier 'delete'." %}
+
+{% set rationale = "Monitoring these calls from non-privileged users could provide a system administrator with evidence that inappropriate removal of files and file attributes associated with protected files is occurring. While this audit option will look at all events, system administrators will want to look for specific privileged files that are being deleted or altered." %}
+
+{% include 'wiki_template.jinja' with context %}

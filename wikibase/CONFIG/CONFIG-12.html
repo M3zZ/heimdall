@@ -1,0 +1,9 @@
+{% set title = "Add nosuid Option to /dev/shm Partition" %}
+
+{% set description = "The <code>nosuid</code> mount option specifies that the
+<code>/dev/shm</code> (temporary filesystem stored in memory) will not execute <code>setuid</code> and
+<code>setgid</code> on executable programs as such, but rather execute them with the uid and gid of the user executing the program." %}
+
+{% set rationale = "Setting this option on a file system prevents users from introducing privileged programs onto the system and allowing non-root users to execute them." %}
+
+{% include 'wiki_template.jinja' with context %}

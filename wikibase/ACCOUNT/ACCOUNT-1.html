@@ -1,0 +1,9 @@
+{% set title = "Set Password Expiration Days" %}
+
+{% set description = "The <code>PASS_MAX_DAYS</code> parameter in
+<code>/etc/login.defs</code> allows an administrator to force passwords to expire once they reach a defined age. It is recommended that the
+<code>PASS_MAX_DAYS</code> parameter be set to less than or equal to 90 days." %}
+
+{% set rationale = "The window of opportunity for an attacker to leverage compromised credentials or successfully compromise credentials via an online brute force attack is limited by the age of the password. Therefore, reducing the maximum age of a password also reduces an attacker's window of opportunity." %}
+
+{% include 'wiki_template.jinja' with context %}

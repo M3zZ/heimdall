@@ -1,0 +1,7 @@
+{% set title = "Enable crond Daemon" %}
+
+{% set description = "The <code>crond</code> daemon is used to execute batch jobs on the system." %}
+
+{% set rationale = "While there may not be user jobs that need to be run on the system, the system does have maintenance jobs that may include security monitoring that have to run and crond is used to execute them." %}
+
+{% include 'wiki_template.jinja' with context %}

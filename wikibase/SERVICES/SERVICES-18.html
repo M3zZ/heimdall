@@ -1,0 +1,9 @@
+{% set title = "Disable tcpmux-server" %}
+
+{% set description = "
+<code>tcpmux-server</code> is a network service that allows a client to access other network services running on the server. It is recommended that this service be disabled." %}
+
+{% set rationale = "<code>tcpmux-server</code> can be abused to circumvent the server's host based firewall.
+<br>Additionally, <code>tcpmux-server</code> can be leveraged by an attacker to effectively port scan the server." %}
+
+{% include 'wiki_template.jinja' with context %}

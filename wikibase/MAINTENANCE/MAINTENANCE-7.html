@@ -1,0 +1,7 @@
+{% set title = "Find Un-owned Files and Directories" %}
+
+{% set description = "Sometimes when administrators delete users from the password file they neglect to remove all files owned by those users from the system." %}
+
+{% set rationale = "A new user who is assigned the deleted user's user IDmay then end up 'owning' these files, and thus have more access on the system than was intended." %}
+
+{% include 'wiki_template.jinja' with context %}

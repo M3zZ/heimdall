@@ -1,0 +1,9 @@
+{% set title = "Enable firewalld" %}
+
+{% set description = "
+<code>IPtables</code> is an application that allows a system administrator to configure the IP tables, chains and rules provided by the Linux kernel firewall. The
+<code>firewalld</code> service provides a dynamic firewall allowing changes to be made at anytime without disruptions cause by reloading." %}
+
+{% set rationale = "A firewall provides extra protection for the Linux system by limiting communications in and out of the box to specific addresses and ports." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,10 @@
+{% set title = "Set SSH MaxAuthTries to 4 or Less" %}
+
+{% set description = "The
+<code>MaxAuthTries</code> parameter specifies the maximum number of authentication attempts permitted per connection. When the login failure count reaches half the number, error messages will be written to the
+<code>syslog</code> file detailing the login failure." %}
+
+{% set rationale = "Setting the
+<code>MaxAuthTries</code> parameter to a low number will minimize the risk of successful brute force attacks to the SSH server. While the recommended setting is 4, it is set the number based on site policy." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,8 @@
+{% set title = "Verify No UID 0 Accounts Exist Other Than root" %}
+
+{% set description = "Any account with UID 0 has superuser privileges on the system." %}
+
+{% set rationale = "This access must be limited to only the default
+<code>root</code> account and only from the system console. Administrative access must be through an unprivileged account using an approved mechanism as noted in Item 7.5 Restrict root Login to System Console." %}
+
+{% include 'wiki_template.jinja' with context %}

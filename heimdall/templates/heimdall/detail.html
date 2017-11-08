@@ -1,0 +1,64 @@
+<div class="dynamic-window-body">
+    <div id="host-detail-{{ data.name }}-{{ data.id }}" class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ data.name }}</h3>
+        </div>
+        <div class="panel-body">
+            <table class="table table-bordered">
+                <tbody>
+                {% for fields, values in data.get_fields.iteritems %}
+                <tr>
+                    {% if fields != 'audit_command' %}
+                    <td>{{ fields|title }}</td>
+                    {% if fields == 'password' %}
+                    <td style="width: 100%;"><input type="password"></td>
+                    {% else %}
+                    <td style="width: 100%;">
+                        <div>
+                            <p>
+                                {% if fields == 'hosts' or fields == 'rules' %}
+                            <ul>
+                                {% for v in values %}
+                                <li>{{ v }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% else %}
+                            {{ values }}
+                            {% endif %}
+                            </p>
+                        </div>
+                    </td>
+                    {% endif %}
+                    {% endif %}
+                </tr>
+                </tr>
+                {% endfor %}
+                {% if item == 'rule' %}
+                <tr>
+                    <td colspan="2">
+                        <span class="label">Audit Command:</span>
+                        <div>
+                            <pre style="border: 1px solid #5cb85c">#{{ data.audit_command }}</pre>
+                        </div>
+                    </td>
+                </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <table>
+        <tr>
+            <td>
+                <form action="/heimdall/item={{ item }}&action=update&id={{ data.get_fields.id }}" method="get">
+                    <input type="submit" value="Update"/>
+                </form>
+            </td>
+            <td>
+                <form action="/heimdall/item={{ item }}&action=remove&id={{ data.get_fields.id }}" method="get">
+                    <input type="submit" value="remove"/>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>

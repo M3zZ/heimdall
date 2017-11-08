@@ -1,0 +1,7 @@
+{% set title = "Create Separate Partition for /var/log" %}
+
+{% set description = "The <code>/var/log</code> directory is used by system services to store log data." %}
+
+{% set rationale = "There are two important reasons to ensure that system logs are stored on a separate partition: protection against resource exhaustion (since logs can grow quite large) and protection of audit data." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,8 @@
+{% set title = "Check Permissions on  User .rhosts Files" %}
+
+{% set description = "While no <code>.rhosts</code> files are shipped with CentOS 7, users can easily create them." %}
+
+{% set rationale = "This action is only meaningful if <code>.rhosts</code> support is permitted in the file <code>/etc/pam.conf</code>. Even though the .rhosts files are ineffective if support is disabled in
+<code>/etc/pam.conf</code>, they may have been brought over from other systems and could contain information useful to an attacker for those other systems." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,7 @@
+{% set title = "Disable SCTP" %}
+
+{% set description = "The Stream Control Transmission Protocol (SCTP) is a transport layer protocol used to support message oriented communication, with several streams of messages in one connection. It serves a similar function as TCP and UDP, incorporating features of both. It is message-oriented like UDP, and ensures reliable in-sequence transport of messages with congestion control like TCP." %}
+
+{% set rationale = "If the protocol is not required, it is recommended that the drivers not be installed to reduce the potential attack surface." %}
+
+{% include 'wiki_template.jinja' with context %}

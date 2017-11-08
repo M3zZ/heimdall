@@ -1,0 +1,9 @@
+{% set title = "Check for Duplicate groupename" %}
+
+{% set description = "Although the
+<code>groupadd</code> program will not let you create a duplicate groupename, it is possible for an administrator to manually edit the
+<code>/etc/group</code> file and change the groupename field." %}
+
+{% set rationale = "User groups must be assigned unique groupename for accountability and to ensure appropriate access protections." %}
+
+{% include 'wiki_template.jinja' with context %}

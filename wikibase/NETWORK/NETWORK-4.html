@@ -1,0 +1,8 @@
+{% set title = "Disable ICMP Redirect Acceptance" %}
+
+{% set description = "ICMP redirect messages are packets that convey routing information and tell your host (acting as a router) to send packets via an alternate path. It is a way of allowing an outside routing device to update your system routing tables. By setting
+<code>net.ipv4.conf.all.accept_redirects</code> to 0, the system will not accept any ICMP redirect messages, and therefore, won't allow outsiders to update the system's routing tables." %}
+
+{% set rationale = "Attackers could use bogus ICMP redirect messages to maliciously alter the system routing tables and get them to send packets to incorrect networks and allow your system packets to be captured." %}
+
+{% include 'wiki_template.jinja' with context %}

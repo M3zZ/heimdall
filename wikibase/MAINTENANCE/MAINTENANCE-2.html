@@ -1,0 +1,9 @@
+{% set title = "Verify Permissions on /etc/passwd" %}
+
+{% set description = "The
+<code>/etc/passwd</code> file contains user account information that is used by many system utilities and therefore must be readable for these utilities to operate." %}
+
+{% set rationale = "It is critical to ensure that the
+<code>/etc/passwd</code> file is protected from unauthorized write access. Although it is protected by default, the file permissions could be changed either inadvertently or through malicious actions." %}
+
+{% include 'wiki_template.jinja' with context %}

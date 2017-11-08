@@ -1,0 +1,7 @@
+{% set title = "Disable SSH X11 Forwarding" %}
+
+{% set description = "The X11Forwarding parameter provides the ability to tunnel X11 traffic through the connection to enable remote graphic connections." %}
+
+{% set rationale = "Disable X11 forwarding unless there is an operational requirement to use X11 applications directly. There is a small risk that the remote X11 servers of users who are logged in via SSH with X11 forwarding could be compromised by other users on the X11 server. Note that even if X11 forwarding is disabled, users can always install their own forwarders." %}
+
+{% include 'wiki_template.jinja' with context %}

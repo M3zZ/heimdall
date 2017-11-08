@@ -1,0 +1,9 @@
+{% set title = "Set Warning Banner for Standard Login Services" %}
+
+{% set description = "Unix-based systems have typically displayed information about the OS release and patch level upon logging in to the system. This information can be useful to developers who are developing software for a  particular OS platform. If mingetty(8) supports the following options, they display operating system information:
+<pre><code>\m - machine architecture ( uname -m ) \\r - operating system release ( uname -r ) \s - operating system name \v - operating system version ( uname -v )</code></pre>" %}
+
+{% set rationale = "Displaying OS and patch level information in login banners also has the side effect of providing detailed system information to attackers attempting to target specific exploits of a system. Authorized users can easily get this information by running the
+<code>uname -a</code> command once they have logged in." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,11 @@
+{% set title = "Ensure root PATH Integrity" %}
+
+{% set description = "The
+<code>root</code> user can execute any command on the system and could be fooled into executing programs unintentionally if the
+<code>PATH</code> is not set correctly." %}
+
+{% set rationale = "Including the current working directory (.) or other writable directory in
+<code>root</code>'s executable path makes it likely that an attacker can gain superuser access by forcing an administrator operating as
+<code>root</code> to execute a Trojan horse program." %}
+
+{% include 'wiki_template.jinja' with context %}

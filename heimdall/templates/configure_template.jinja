@@ -1,0 +1,221 @@
+#!/bin/bash
+
+echo=`/usr/bin/which echo`
+useradd=`/usr/bin/which useradd`
+getent=`/usr/bin/which getent`
+mkdir=`/usr/bin/which mkdir`
+chmod=`/usr/bin/which chmod`
+chown=`/usr/bin/which chown`
+touch=`/usr/bin/which touch`
+grep=`/usr/bin/which grep`
+sed=`/usr/bin/which sed`
+wc=`/usr/bin/which wc`
+
+# First : create user
+function create_user(){
+    USER='heimdall'
+    HOME='/opt/heimdall'
+    if [ `$getent passwd $USER | $wc -l` -eq 0 ];then # User not found
+        $useradd -s /bin/bash -b /opt/ -m -K MAIL_DIR=/dev/null -U $USER
+        if [ $? -ne 0 ];then
+            $echo "Error during $USER creation"
+            exit 1
+        fi
+        $chmod 700 $HOME
+        if [ $? -ne 0 ];then
+            $echo "Error during $HOME chmod"
+            exit 1
+        fi
+        $chown heimdall:heimdall $HOME
+        if [ $? -ne 0 ];then
+            $echo "Error during $HOME chown"
+            exit 1
+        fi
+    fi
+}
+
+# Second : Create heimdall audit and scripts directories
+function create_audit_dir(){
+    AUDIT_DIR='/opt/heimdall/audit'
+
+    if ! [ -d $AUDIT_DIR ];then
+        $mkdir -p $AUDIT_DIR
+        if [ $? -ne 0 ];then
+            echo "Error during $AUDIT_DIR creation"
+            exit 1
+        fi
+        $chmod 700 $AUDIT_DIR
+        if [ $? -ne 0 ];then
+            $echo "Error during $AUDIT_DIR chmod"
+            exit 1
+        fi
+        $chown heimdall:heimdall $AUDIT_DIR
+        if [ $? -ne 0 ];then
+            $echo "Error during $AUDIT_DIR chown"
+            exit 1
+        fi
+    fi
+}
+function create_scripts_dir(){
+    SCRIPTS_DIR='/opt/heimdall/scripts'
+
+    if ! [ -d $SCRIPTS_DIR ];then
+        $mkdir -p $SCRIPTS_DIR
+        if [ $? -ne 0 ];then
+            echo "Error during $SCRIPTS_DIR creation"
+            exit 1
+        fi
+    fi
+    $chmod 700 $SCRIPTS_DIR
+    if [ $? -ne 0 ];then
+        $echo "Error during $SCRIPTS_DIR chmod"
+        exit 1
+    fi
+    $chown heimdall:heimdall $SCRIPTS_DIR
+    if [ $? -ne 0 ];then
+        $echo "Error during $SCRIPTS_DIR chown"
+        exit 1
+    fi
+}
+
+# Third : Set sudoers.d heimdall file
+function create_sudoers_file(){
+    SUDOERSD_FILE='/etc/sudoers.d/heimdall-audit-rules'
+
+    if ! [ -f $SUDOERSD_FILE ];then
+        $touch  $SUDOERSD_FILE
+        if [ $? -ne 0 ];then
+            $echo "Error during $SUDOERSD_FILE creation"
+            exit 1
+        fi
+    fi
+    $chmod 600 $SUDOERSD_FILE
+    if [ $? -ne 0 ];then
+        $echo "Error during $SUDOERSD_FILE chmod"
+        exit 1
+    fi
+    $chown root:root $SUDOERSD_FILE
+    if [ $? -ne 0 ];then
+        $echo "Error during $SUDOERSD_FILE chown"
+        exit 1
+    fi
+}
+
+function create_sudoers_conf(){
+    USER='heimdall'
+    SUDOERSD_FILE='/etc/sudoers.d/heimdall-audit-rules'
+    CMD_AUDIT_ALIAS='Cmnd_Alias AUDIT = /bin/bash -l -c /usr/bin/env python /opt/heimdall/audit/heimdall_audit.py'
+    CMD_AUDIT='heimdall ALL=(root) NOPASSWD: AUDIT'
+
+    if [ -f $SUDOERSD_FILE ];then
+        $echo $CMD_AUDIT_ALIAS > $SUDOERSD_FILE
+        if [ $? -ne 0 ];then
+            $echo "Error during implementation of $SUDOERSD_FILE"
+            exit 1
+        fi
+        $echo $CMD_AUDIT >> $SUDOERSD_FILE
+        if [ $? -ne 0 ];then
+            $echo "Error during implementation of $SUDOERSD_FILE"
+            exit 1
+        fi
+    fi
+    if [ `$grep "^#includedir /etc/sudoers.d" /etc/sudoers | $wc -l` -ne 1 ];then
+        $echo "#includedir /etc/sudoers.d/" >> /etc/sudoers
+        if [ $? -ne 0 ];then
+            $echo "Error when adding includedir in /etc/sudoers"
+            exit 1
+        fi
+    fi
+}
+
+function copy_ssh_key(){
+    USER='heimdall'
+    SSH_KEY_PUB='{{ ssh_key }}'
+    if [ `$getent passwd $USER | $wc -l` -eq 0 ];then # User not found
+        if [ $? -ne 0 ];then
+            $echo "Error $USER doesnt exist"
+            create_user
+        fi
+    fi
+
+    if [ -e /etc/ssh/sshd_config ];then
+        SSH_KEY_FILE=`awk '/^AuthorizedKeysFile/ {print $NF}' /etc/ssh/sshd_config`
+    else
+        SSH_KEY_FILE=''
+    fi
+    if [ -z "$SSH_KEY_FILE" ] || [ "`echo $SSH_KEY_FILE|head -n 1`" == ".ssh/authorized_keys" ];then
+        SSH_DIR='/opt/heimdall/.ssh'
+        SSH_KEY_FILE='/opt/heimdall/.ssh/authorized_keys'
+        if ! [ -d $SSH_DIR ];then
+            $mkdir -p $SSH_DIR
+            if [ $? -ne 0 ];then
+                echo "Error during $SSH_DIR creation"
+                exit 1
+            fi
+            $chmod 700 $SSH_DIR
+            if [ $? -ne 0 ];then
+                $echo "Error during $SSH_DIR chmod"
+                exit 1
+            fi
+            $chown heimdall:heimdall $SSH_DIR
+            if [ $? -ne 0 ];then
+                $echo "Error during $SSH_DIR chown"
+                exit 1
+            fi
+        fi
+        if ! [ -f $SSH_KEY_FILE ];then
+            touch $SSH_KEY_FILE
+        fi
+        $chown heimdall:heimdall $SSH_KEY_FILE
+        if [ $? -ne 0 ];then
+            $echo "Error during $SSH_KEY_FILE chown"
+            exit 1
+        fi
+    else
+        if [ `echo $SSH_KEY_FILE | head -n 1  |$grep "%u" |$wc -l` -ge 1 ];then # mean %u in it
+            SSH_KEY_FILE=`echo $SSH_KEY_FILE | $sed 's/\%u/heimdall/g'`
+            if ! [ -e $SSH_KEY_FILE ];then
+                touch $SSH_KEY_FILE
+            fi
+            if [ $? -ne 0 ];then
+                $echo "Error during $SSH_KEY_FILE creation"
+                exit 1
+            fi
+            $chown heimdall:heimdall $SSH_KEY_FILE
+            if [ $? -ne 0 ];then
+                $echo "Error during $SSH_KEY_FILE chown"
+                exit 1
+            fi
+        elif [ `echo $SSH_KEY_FILE | head -n 1|$grep "%h" |$wc -l` -ge 1 ];then # mean %h in it
+            SSH_KEY_FILE=`echo $line | $sed 's/\%h/\/opt\/heimdall/g'`
+            $chown heimdall:heimdall $SSH_KEY_FILE
+            if [ $? -ne 0 ];then
+                $echo "Error during $SSH_KEY_FILE chown"
+                exit 1
+            fi
+        else
+            SSH_KEY_FILE=$line
+        fi
+    fi
+    $echo $SSH_KEY_PUB >> "$SSH_KEY_FILE"
+    if [ $? -ne 0 ];then
+        $echo "Error during ssh key copy"
+        exit 1
+    fi
+    $chmod 600 $SSH_KEY_FILE
+    if [ $? -ne 0 ];then
+        $echo "Error during $SSH_KEY_FILE chmod"
+        exit 1
+    fi
+}
+
+create_user
+create_audit_dir
+create_scripts_dir
+create_sudoers_file
+create_sudoers_conf
+copy_ssh_key
+$touch /opt/heimdall/iamconfigured
+$chmod 600 /opt/heimdall/iamconfigured
+$chown heimdall:heimdall /opt/heimdall/iamconfigured
+exit 0

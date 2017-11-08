@@ -1,0 +1,7 @@
+{% set title = "Remove DHCP Server" %}
+
+{% set description = "The Dynamic Host Configuration Protocol (DHCP) is a service that allows machines to be dynamically assigned IP addresses." %}
+
+{% set rationale = "Unless a server is specifically set up to act as a DHCP server, it is recommended that this service be deleted to reduce the potential attack surface." %}
+
+{% include 'wiki_template.jinja' with context %}

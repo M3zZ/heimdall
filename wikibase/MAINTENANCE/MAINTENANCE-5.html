@@ -1,0 +1,10 @@
+{% set title = "Verify Permissions on /etc/gshadow" %}
+
+{% set description = "The
+<code>/etc/gshadow</code> file contains information about group accounts that is critical to the security of those accounts, such as the hashed password and other security information." %}
+
+{% set rationale = "If attackers can gain read access to the
+<code>/etc/gshadow</code> file, they can easily run a password cracking program against the hashed password to break it. Other security information that is stored in the
+<code>/etc/gshadow</code> file (such as expiration) could also be useful to subvert the group accounts." %}
+
+{% include 'wiki_template.jinja' with context %}

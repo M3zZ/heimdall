@@ -1,0 +1,10 @@
+{% set title = "Collect Login and Logout Events" %}
+
+{% set description = "Monitor login and logout events. The parameters below track changes to files associated with login/logout events. The file
+<code>/var/log/faillog</code> tracks failed events from login. The file
+<code>/var/log/lastlog</code> maintain records of the last time a user successfully logged in. The file <code>/var/log/btmp</code> keeps track of failed login attempts and can be read by entering the command
+<code>/usr/bin/last -f /var/log/btmp</code> . All audit records will be tagged with the identifier 'logins.'" %}
+
+{% set rationale = "Monitoring login/logout events could provide a system administrator with information associated with brute force attacks against user logins." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,8 @@
+{% set title = "Make the Audit Configuration Immutable" %}
+
+{% set description = "Set system audit so that audit rules cannot be modified with
+<code>auditctl</code>. Setting the flag '-e 2' forces audit to be put in immutable mode. Audit changes can only be made on system reboot." %}
+
+{% set rationale = "In immutable mode, unauthorized users cannot execute changes to the audit system to potential hide malicious activity and then put the audit rules back. Users would most likely notice a system reboot and that could alert administrators of an attempt to make unauthorized audit changes." %}
+
+{% include 'wiki_template.jinja' with context %}

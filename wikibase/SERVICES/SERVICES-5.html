@@ -1,0 +1,8 @@
+{% set title = "Remove NIS Client" %}
+
+{% set description = "The Network Information Service (NIS), formerly known as Yellow Pages, is a client-server directory service protocol used to distribute system configuration files. The NIS client (
+<code>ypbind</code> ) was used to bind a machine to an NIS server and receive the distributed configuration files." %}
+
+{% set rationale = "The NIS service is inherently an insecure system that has been vulnerable to DOS attacks, buffer overflows and has poor authentication for querying NIS maps. NIS generally has been replaced by such protocols as Lightweight Directory Access Protocol (LDAP). It is recommended that the service be removed." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,9 @@
+{% set title = "Disable Mounting of cramfs Filesystems" %}
+
+{% set description = "The
+<code>cramfs</code> filesystem type is a compressed read-only Linux filesystem embedded in small footprint systems. A
+<code>cramfs</code> image can be used without having to first decompress the image." %}
+
+{% set rationale = "Removing support for unneeded filesystem types reduces the local attack surface of the server. If this filesystem type is not needed, disable it." %}
+
+{% include 'wiki_template.jinja' with context %}

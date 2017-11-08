@@ -1,0 +1,8 @@
+{% set title = "Do Not Allow Users to Set Environment Options" %}
+
+{% set description = "The <code>PermitUserEnvironment</code> option allows users to present environment options to the
+<code>ssh</code> daemon." %}
+
+{% set rationale = "Permitting users the ability to set environment variables through the SSH daemon could potentially allow users to bypass security controls (e.g. setting an execution path that has ssh executing trojaned programs)." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,9 @@
+{% set title = "Set Password Expiring Warning Days" %}
+
+{% set description = "The <code>PASS_WARN_AGE</code> parameter in
+<code>/etc/login.defs</code> allows an administrator to notify users that their password will expire in a defined number of days. It is recommended that the
+<code>PASS_WARN_AGE</code> parameter be set to 7 or more days." %}
+
+{% set rationale = "Providing an advance warning that a password will be expiring gives users time to think of a secure password. Users caught unaware may choose a simple password or write it down where it may be discovered." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,16 @@
+{% set title = "Set Default umask for Users" %}
+
+{% set description = "The default
+<code>umask</code> determines the permissions of files created by users. The user creating the file has the discretion of making their files and directories readable by others via the chmod command. Users who wish to allow their files and directories to be readable by others by default may choose a different default umask by inserting the
+<code>umask</code> command into the standard shell configuration files ( <code>.profile</code> ,
+<code>.cshrc</code> , etc.) in their home directories." %}
+
+{% set rationale = "Setting a very secure default value for
+<code>umask</code> ensures that users make a conscious choice about their file permissions. A default
+<code>umask</code> setting of 077 causes files and directories created by users to not be readable by any other user on the system. A
+<code>umask</code> of
+<code>027</code> would make files and directories readable by users in the same Unix group, while a
+<code>umask</code> of <code>022</code> would make files readable by every user on the system.
+<br>Note: The directives in this section apply to bash and shell. If other shells are supported on the system, it is recommended that their configuration files also are checked." %}
+
+{% include 'wiki_template.jinja' with context %}

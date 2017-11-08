@@ -1,0 +1,9 @@
+{% set title = "Check for Unconfined Daemons" %}
+
+{% set description = "Daemons that are not defined in SELinux policy will inherit the security context of their parent process." %}
+
+{% set rationale = "Since daemons are launched and descend from the
+<code>init</code> process, they will inherit the security context label
+<code>initrc_t</code>. This could cause the unintended consequence of giving the process more permission than it requires." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,8 @@
+{% set title = "Set SSH PermitEmptyPasswords to No" %}
+
+{% set description = "The
+<code>PermitEmptyPasswords</code> parameter specifies if the server allows login to accounts with empty password strings." %}
+
+{% set rationale = "Disallowing remote shell access to accounts that have an empty password reduces the probability of unauthorized access to the system." %}
+
+{% include 'wiki_template.jinja' with context %}

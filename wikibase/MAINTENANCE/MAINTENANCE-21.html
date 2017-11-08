@@ -1,0 +1,8 @@
+{% set title = "Check for Presence of User .forward Files" %}
+
+{% set description = "The <code>.forward</code> file specifies an email address to forward the user's mail to." %}
+
+{% set rationale = "Use of the
+<code>.forward</code> file poses a security risk in that sensitive data may be inadvertently transferred outside the organization. The .forward file also poses a risk as it can be used to execute commands that may perform unintended actions." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,17 @@
+{% set title = "Bind Mount the /var/tmp directory to /tmp" %}
+
+{% set description = "The <code>/var/tmp</code> directory is normally a standalone directory in the
+<code>/var</code> file system. Binding <code>/var/tmp</code> to <code>/tmp</code> establishes an unbreakable link to
+<code>/tmp</code> that cannot be removed (even by the root user). It also allows
+<code>/var/tmp</code> to inherit the same mount options that <code>/tmp</code> owns, allowing
+<code>/var/tmp</code> to be protected in the same <code>/tmp</code> is protected. It will also prevent
+<code>/var</code> from filling up with temporary files as the contents of
+<code>/var/tmp</code> will actually reside in the file system containing <code>/tmp</code>." %}
+
+{% set rationale = "All programs that use <code>/var/tmp</code> and
+<code>/tmp</code> to read/write temporary files will always be written to the
+<code>/tmp</code> file system, preventing a user from running the
+<code>/var</code> file system out of space or trying to perform operations that have been blocked in the
+<code>/tmp</code> filesystem." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,9 @@
+{% set title = "Set Warning Banner for Standard Login Services" %}
+
+{% set description = "The contents of the
+<code>/etc/issue</code> file are displayed prior to the login prompt on the system's console and serial devices, and also prior to logins via telnet. The contents of the
+<code>/etc/motd</code> file is generally displayed after all successful logins, no matter where the user is logging in from, but is thought to be less useful because it only provides notification to the user after the machine has been accessed." %}
+
+{% set rationale = "Warning messages inform users who are attempting to login to the system of their legal status regarding the system and must include the name of the organization that owns the system and any monitoring policies that are in place. Consult with your organization's legal counsel for the appropriate wording for your specific organization." %}
+
+{% include 'wiki_template.jinja' with context %}

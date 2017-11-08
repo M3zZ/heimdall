@@ -1,0 +1,14 @@
+{% set title = "Restrict cron to Authorized Users" %}
+
+{% set description = "Configure <code>/etc/cron.allow</code> to allow specific users to use these services. If <code>/etc/cron.allow</code> do not exist, then
+<code>/etc/cron.deny</code> are checked. Any user not specifically defined in those files is allowed to use
+<code>cron</code>. By removing the files, only users in <code>/etc/cron.allow</code> are allowed to use
+<code>cron</code>. Note that even though a given user is not listed in
+<code>cron.allow</code>, cron jobs can still be run as that user. The
+<code>cron.allow</code> file only controls administrative access to the crontab command for scheduling and modifying cron jobs." %}
+
+{% set rationale = "On many systems, only the system administrator is authorized to schedule
+<code>cron</code> jobs. Using the <code>cron.allow</code> file to control who can run
+<code>cron</code> jobs enforces this policy. It is easier to manage an allow list than a deny list. In a deny list, you could potentially add a user ID to the system and forget to add it to the deny files." %}
+
+{% include 'wiki_template.jinja' with context %}

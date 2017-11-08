@@ -1,0 +1,10 @@
+{% set title = "Set User/Group Owner and Permission on /etc/cron.hourly" %}
+
+{% set description = "This directory contains system
+<code>cron</code> jobs that need to run on an hourly basis. The files in this directory cannot be manipulated by the
+<code>crontab</code> command, but are instead edited by system administrators using a text editor. The commands below restrict read/write and
+search access to user and group root, preventing regular users from accessing this directory." %}
+
+{% set rationale = "Granting write access to this directory for non-privileged users could provide them the means for gaining unauthorized elevated privileges. Granting read access to this directory could give an unprivileged user insight in how to gain elevated privileges or circumvent auditing controls." %}
+
+{% include 'wiki_template.jinja' with context %}

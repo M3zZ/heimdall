@@ -1,0 +1,8 @@
+{% set title = "Disable daytime-stream" %}
+
+{% set description = "
+<code>daytime-stream</code> is a network service that responds with the server's current date and time. This service is intended for debugging and testing purposes. It is recommended that this service be disabled." %}
+
+{% set rationale = "Disabling this service will reduce the remote attack surface of the system." %}
+
+{% include 'wiki_template.jinja' with context %}

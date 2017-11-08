@@ -1,0 +1,10 @@
+{% set title = "Verify Permissions on /etc/shadow" %}
+
+{% set description = "The
+<code>/etc/shadow</code> file is used to store the information about user accounts that is critical to the security of those accounts, such as the hashed password and other security information." %}
+
+{% set rationale = "If attackers can gain read access to the
+<code>/etc/shadow</code> file, they can easily run a password cracking program against the hashed password to break it. Other security information that is stored in the
+<code>/etc/shadow</code> file (such as expiration) could also be useful to subvert the user accounts." %}
+
+{% include 'wiki_template.jinja' with context %}

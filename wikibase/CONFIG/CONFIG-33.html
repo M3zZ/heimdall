@@ -1,0 +1,7 @@
+{% set title = "Set User/Group Owner on /boot/grub2/grub.cfg" %}
+
+{% set description = "Set permissions and owner/group of <code>/boot/grub2/grub.cfg</code> to the root user." %}
+
+{% set rationale = "Setting the owner and group to root prevents non-root users from changing the file.Setting the permissions to read and write for root only prevents non-root users from seeing the boot parameters or changing them. Non-root users who read the boot parameters may be able to identify weaknesses in security upon boot and be able to exploit them." %}
+
+{% include 'wiki_template.jinja' with context %}

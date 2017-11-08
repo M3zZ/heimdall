@@ -1,0 +1,10 @@
+{% set title = "Disable SSH Root Login" %}
+
+{% set description = "The
+<code>PermitRootLogin</code> parameter specifies if the root user can log in using ssh(1). The default is no." %}
+
+{% set rationale = "Disallowing root logins over SSH requires server admins to authenticate using their own individual account, then escalating to root via
+<code>sudo</code> or
+<code>su</code>. This in turn limits opportunity for non-repudiation and provides a clear audit trail in the event of a security incident." %}
+
+{% include 'wiki_template.jinja' with context %}

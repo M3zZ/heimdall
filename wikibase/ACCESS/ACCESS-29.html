@@ -1,0 +1,9 @@
+{% set title = "Set Lockout for Failed Password Attempts" %}
+
+{% set description = "Lock out userIDs after n unsuccessful consecutive login attempts. The first sets of changes are made to the main PAM configuration files
+<code>/etc/pam.d/system-auth</code> and
+<code>/etc/pam.d/password-auth</code>. The second set of changes are applied to the program specific PAM configuration file (in this case, the ssh daemon). The second set of changes must be applied to each program that will lock out userID's. Set the lockout number to the policy in effect at your site." %}
+
+{% set rationale = "Locking out userIDs after n unsuccessful consecutive login attempts mitigates brute force password attacks against your systems." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,9 @@
+{% set title = "Create /etc/hosts.deny" %}
+
+{% set description = "The <code>/etc/hosts.deny</code> file specifies which IP addresses are
+<b>not</b> permitted to connect to the host. It is intended to be used in conjunction with the
+<code>/etc/hosts.allow</code> file." %}
+
+{% set rationale = "The <code>/etc/hosts.deny</code> file serves as a failsafe so that any host not specified in <code>/etc/hosts.allow</code> is denied access to the server." %}
+
+{% include 'wiki_template.jinja' with context %}

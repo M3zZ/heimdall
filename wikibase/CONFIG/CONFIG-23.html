@@ -1,0 +1,8 @@
+{% set title = "Verify that gpgcheck is Globally Activated" %}
+
+{% set description = "The <code>gpgcheck</code> option, found in the main section of the
+<code>/etc/yum.conf</code> file determines if an RPM package's signature is always checked prior to its installation." %}
+
+{% set rationale = "It is important to ensure that an RPM's package signature is always checked prior to installation to ensure that the software is obtained from a trusted source." %}
+
+{% include 'wiki_template.jinja' with context %}

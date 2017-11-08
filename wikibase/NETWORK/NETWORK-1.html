@@ -1,0 +1,8 @@
+{% set title = "Disable IP Forwarding" %}
+
+{% set description = "The
+<code>net.ipv4.ip_forward</code> flag is used to tell the server whether it can forward packets or not. If the server is not to be used as a router, set the flag to 0." %}
+
+{% set rationale = "Setting the flag to 0 ensures that a server with multiple interfaces (for example, a hard proxy), will never be able to forward packets, and therefore, never serve as a router." %}
+
+{% include 'wiki_template.jinja' with context %}

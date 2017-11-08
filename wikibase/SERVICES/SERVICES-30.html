@@ -1,0 +1,7 @@
+{% set title = "Remove Dovecot (IMAP and POP3 services)" %}
+
+{% set description = "Dovecot is an open source IMAP and POP3 server for Linux based systems." %}
+
+{% set rationale = "Unless POP3 and/or IMAP servers are to be provided to this server, it is recommended that the service be deleted to reduce the potential attack surface." %}
+
+{% include 'wiki_template.jinja' with context %}

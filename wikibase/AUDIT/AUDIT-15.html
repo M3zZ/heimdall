@@ -1,0 +1,13 @@
+{% set title = "" %}
+
+{% set description = "Monitor changes to file permissions, attributes, ownership and group. The parameters in this section track changes for system calls that affect file permissions and attributes. The
+<code>chmod</code> , <code>fchmod</code> and
+<code>fchmodat</code> system calls affect the permissions associated with a file. The <code>chown</code> ,
+<code>fchown</code> , <code>fchownat</code> and
+<code>lchown</code> system calls affect owner and group attributes on a file. The <code>setxattr</code>,
+<code>lsetxattr</code>, <code>fsetxattr</code> (set extended file attributes) and <code>removexattr</code>, <code>lremovexattr</code>,
+<code>fremovexattr</code> (remove extended file attributes) control extended file attributes. In all cases, an audit record will only be written for non-system userids (auid >= 1000) and will ignore Daemon events (auid = 4294967295). All audit records will be tagged with the identifier 'perm_mod.'" %}
+
+{% set rationale = "Monitoring for changes in file attributes could alert a system administrator to activity that could indicate intruder activity or policy violation." %}
+
+{% include 'wiki_template.jinja' with context %}

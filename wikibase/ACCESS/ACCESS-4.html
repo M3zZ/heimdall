@@ -1,0 +1,9 @@
+{% set title = "Set User/Group Owner and Permission on /etc/crontab" %}
+
+{% set description = "The <code>/etc/crontab</code> file is used by
+<code>cron</code> to control its own jobs. The commands in this item make sure that root is the user and group owner of the file and is the only user that can read and write the file." %}
+
+{% set rationale = "This file contains information on what system jobs are run by
+<code>cron</code>. Write access to these files could provide unprivileged users with the ability to elevate their privileges. Read access to these files could provide users with the ability to gain insight on system jobs that run on the system and could provide them a way to gain unauthorized privileged access." %}
+
+{% include 'wiki_template.jinja' with context %}

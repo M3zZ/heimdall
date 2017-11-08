@@ -1,0 +1,7 @@
+{% set title = "Disable Print Server - CUPS" %}
+
+{% set description = "The Common Unix Print System (CUPS) provides the ability to print to both local and network printers. A system running CUPS can also accept print jobs from remote systems and print them to local printers. It also provides a web based remote administration capability." %}
+
+{% set rationale = "If the system does not need to print jobs or accept print jobs from other systems, it is recommended that CUPS be disabled to reduce the potential attack surface." %}
+
+{% include 'wiki_template.jinja' with context %}

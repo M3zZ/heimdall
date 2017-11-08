@@ -1,0 +1,258 @@
+desc: Operating System Network auditing rules
+id: 3
+name: NETWORK
+path: /home/tolivier-adm/WinDocuments/tolivier/Documents/Heimdall/heimdall/conf/rules/NETWORK.yml
+rules:
+-   audit:
+    - sysctl net.ipv4.ip_forward|awk -F' = ' {'print $0; if ($NF==0) exit(0) ;else
+        exit(1)'}
+    desc: Verify that ip forwading is disabled.
+    id: 1
+    remed:
+    - sed -i 's/net.ipv4.ip_forward=[0-1]/net.ipv4.ip_forward=0/g' /etc/sysctl.conf
+    - sysctl -w net.ipv4.ip_forward=0
+    - sysctl -w net.ipv4.route.flush=1
+    wikipage: NETWORK-1.html
+-   audit:
+    - /sbin/sysctl net.ipv4.conf.all.send_redirects|awk -F' = ' {'print $0; if ($NF==0)
+        exit(0);else exit(1)'}
+    - /sbin/sysctl net.ipv4.conf.default.send_redirects|awk -F ' = ' {'print $0; if
+        ($NF==1) exit(0);else exit(1)'}
+    desc: Verify that ICMP redirect is disabled.
+    id: 2
+    remed:
+    - sed -i 's/net.ipv4.conf.all.send_redirects=[0-1]/net.ipv4.conf.all.send_redirects=0/g'
+        /etc/sysctl.conf
+    - sed -i 's/net.ipv4.conf.default.send_redirects=[0-1]/net.ipv4.conf.default.send_redirects=0/g'
+        /etc/sysctl.conf
+    - /sbin/sysctl -w net.ipv4.conf.all.send_redirects=0
+    - /sbin/sysctl -w net.ipv4.conf.default.send_redirects=0
+    - /sbin/sysctl -w net.ipv4.route.flush=1
+    wikipage: NETWORK-2.html
+-   audit:
+    - /sbin/sysctl net.ipv4.conf.all.accept_source_route|awk -F' = ' {'print $0; if
+        ($NF==0) exit(0);else exit(1)'}
+    - /sbin/sysctl net.ipv4.conf.default.accept_source_route|awk -F' = ' {'print $0;
+        if ($NF==0) exit(0);else exit(1)'}
+    desc: Verify that source routed packet acceptance is disabled
+    id: 3
+    remed:
+    - sed -i 's/net.ipv4.conf.all.accept_source_route=[0-1]/net.ipv4.conf.all. accept_source_route=0/g'
+        /etc/sysctl.conf
+    - sed -i 's/net.ipv4.conf.default.accept_source_route=[0-1]/net.ipv4.conf.default.
+        accept_source_route=0/g' /etc/sysctl.conf
+    - /sbin/sysctl -w net.ipv4.conf.all.accept_source_route=0
+    - /sbin/sysctl -w net.ipv4.conf.default.accept_source_route=0
+    - /sbin/sysctl -w net.ipv4.route.flush=1
+    wikipage: NETWORK-3.html
+-   audit:
+    - /sbin/sysctl net.ipv4.conf.all.accept_redirects|awk -F' = ' {'print $0; if ($NF==0)
+        exit(0);else exit(1)'}
+    - /sbin/sysctl net.ipv4.conf.default.accept_redirects|awk -F' = ' {'print $0;
+        if ($NF==0) exit(0);else exit(1)'}
+    desc: Verify that ICMP redirect acceptance is disabled.
+    id: 4
+    remed:
+    - sed -i 's/net.ipv4.conf.all.accept_redirects=[0-1]/net.ipv4.conf.all.accept_redirects=0/g'
+        /etc/sysctl.conf
+    - sed -i 's/net.ipv4.conf.default.accept_redirects=[0-1]/net.ipv4.conf.default.accept_redirects=0/g'
+        /etc/sysctl.conf
+    - /sbin/sysctl -w net.ipv4.conf.all.accept_redirects=0
+    - /sbin/sysctl -w net.ipv4.conf.default.accept_redirects=0
+    - /sbin/sysctl -w net.ipv4.route.flush=1
+    wikipage: NETWORK-4.html
+-   audit:
+    - /sbin/sysctl net.ipv4.conf.all.secure_redirects|awk -F' = ' {'print $0; if ($NF==0)exit(0);else
+        exit(1)'}
+    - /sbin/sysctl net.ipv4.conf.default.secure_redirects|awk -F' = ' {'print $0;
+        if ($NF==0) exit(0);else exit(1)'}
+    desc: Verify that secure ICMP redirect acceptance is disabled.
+    id: 5
+    remed:
+    - sed -i 's/net.ipv4.conf.all.secure_redirects=[0-1]/net.ipv4.conf.all. secure
+        _redirects=0/g' /etc/sysctl.conf
+    - sed -i 's/net.ipv4.conf.default.secure_redirects=[0-1]/net.ipv4.conf.default.send_redirects=0/g'
+        /etc/sysctl.conf
+    - /sbin/sysctl -w net.ipv4.conf.all.secure_redirects=0
+    - /sbin/sysctl -w net.ipv4.conf.default.secure_redirects=0
+    - /sbin/sysctl -w net.ipv4.route.flush=1
+    wikipage: NETWORK-5.html
+-   audit:
+    - /sbin/sysctl net.ipv4.conf.all.log_martians|awk -F' = ' {'print $0; if ($NF==1)
+        exit(0);else exit(1)'}
+    - /sbin/sysctl net.ipv4.conf.default.log_martians|awk -F' = ' {'print $0; if ($NF==1)
+        exit(0);else exit(1)'}
+    desc: Verify that suspicious packets logging is enabled.
+    id: 6
+    remed:
+    - sed -i 's/net.ipv4.conf.all.log_martians=[0-1]/net.ipv4.conf.all.log_martians=1/g'
+        /etc/sysctl.conf
+    - sed -i 's/net.ipv4.conf.default.log_martians=[0-1]/net.ipv4.conf.default.log_martians=1/g'
+        /etc/sysctl.conf
+    - /sbin/sysctl -w net.ipv4.conf.all.log_martians=1
+    - /sbin/sysctl -w net.ipv4.conf.default.log_martians=1
+    - /sbin/sysctl -w net.ipv4.route.flush=1
+    wikipage: NETWORK-6.html
+-   audit:
+    - /sbin/sysctl net.ipv4.icmp_echo_ignore_broadcasts|awk -F' = ' {'print $0; if
+        ($NF==1) exit(0);else exit(1)'}
+    desc: Verify that ignoring broadcast requests is enabled.
+    id: 7
+    remed:
+    - sed -i 's/net.ipv4.icmp_echo_ignore_broadcasts=[0-1]/ net.ipv4.icmp_echo_ignore_broadcasts=1/g'
+        /etc/sysctl.conf
+    - /sbin/sysctl -w net.ipv4.icmp_echo_ignore_broadcasts=1
+    - /sbin/sysctl -w net.ipv4.route.flush=1
+    wikipage: NETWORK-7.html
+-   audit:
+    - /sbin/sysctl net.ipv4.icmp_ignore_bogus_error_responses|awk -F' = ' {'print
+        $0; if ($NF==1)  exit(0);else exit(1)'}
+    desc: Verify that bad error message protection is enabled.
+    id: 8
+    remed:
+    - sed -i 's/net.ipv4.icmp_ignore_bogus_error_responses=[0-1]/ net.ipv4.icmp_ignore_bogus_error_responses=1/g'
+        /etc/sysctl.conf
+    - /sbin/sysctl -w net.ipv4.icmp_ignore_bogus_error_responses=1
+    - /sbin/sysctl -w net.ipv4.route.flush=1
+    wikipage: NETWORK-8.html
+-   audit:
+    - /sbin/sysctl net.ipv4.conf.all.rp_filter|awk -F' = ' {'print $0; if ($NF==1)
+        exit(0);else exit(1)'}
+    - /sbin/sysctl net.ipv4.conf.default.rp_filter|awk -F' = ' {'print $0; if ($NF==1)
+        exit(0);else exit(1)'}
+    desc: Verify that source route validation is enabled.
+    id: 9
+    remed:
+    - sed -i 's/net.ipv4.conf.all.rp_filter=[0-1]/net.ipv4.conf.all.rp_filter=1/g'
+        /etc/sysctl.conf
+    - sed -i 's/net.ipv4.conf.default.rp_filter=[0-1]/net.ipv4.conf.default.rp_filter=1/g'
+        /etc/sysctl.conf
+    - /sbin/sysctl -w net.ipv4.conf.all.rp_filter=1
+    - /sbin/sysctl -w net.ipv4.conf.default.rp_filter=1
+    - /sbin/sysctl -w net.ipv4.route.flush=1
+    wikipage: NETWORK-9.html
+-   audit:
+    - /sbin/sysctl net.ipv4.tcp_syncookies|awk -F' = ' {'print $0; if ($NF==1) exit(0);else
+        exit(1)'}
+    desc: Verify that TCP SYN cookies are enabled.
+    id: 10
+    remed:
+    - sed -i 's/net.ipv4.tcp_syncookies=[0-1]/net.ipv4.tcp_syncookies=1/g' /etc/sysctl.conf
+    - /sbin/sysctl -w net.ipv4.tcp_syncookies=1
+    - /sbin/sysctl -w net.ipv4.route.flush=1
+    wikipage: NETWORK-10.html
+-   audit:
+    - ip link show|grep -i wlan
+    desc: Verify that WiFi interfaces are disabled.
+    id: 11
+    remed:
+    - remed_remove_wifi_interfaces.sh
+    wikipage: NETWORK-11.html
+-   audit:
+    - /sbin/sysctl net.ipv6.conf.all.disable_ipv6|awk -F' = ' {'print $0; if ($NF==1)
+        exit(0);else exit(1)'}
+    - grep 'net.ipv6.conf.all.disable_ipv6' /etc/sysctl.conf
+    desc: Verify that ipv6 is disabled.
+    id: 12
+    remed:
+    - sed -i 's/net.ipv6.conf.all.disable_ipv6=[0-1]/net.ipv6.conf.all.disable_ipv6=1/g'
+        /etc/sysctl.conf
+    - /sbin/sysctl -w net.ipv6.conf.all.disable_ipv6=1
+    wikipage: NETWORK-12.html
+-   audit:
+    - /sbin/sysctl net.ipv6.conf.all.accept_ra|awk -F' = ' {'print $0; if ($NF==0)
+        exit(0);else exit(1)'}
+    - /sbin/sysctl net.ipv6.conf.default.accept_ra
+    desc: Verify that IPv6 router advertisements is disabled.
+    id: 13
+    remed:
+    - sed -i 's/net.ipv6.all.accept_ra=[0-1]/net.ipv6.all.accept_ra=0/g' /etc/sysctl.conf
+    - sed -i 's/net.ipv6.default.accept_ra=[0-1]/net.ipv6.default.accept_ra=0/g' /etc/sysctl.conf
+    - /sbin/sysctl -w net.ipv6.all.accept_ra=0
+    - /sbin/sysctl -w net.ipv6.default.accept_ra=0
+    - /sbin/sysctl -w net.ipv6.route.flush=0
+    wikipage: NETWORK-13.html
+-   audit:
+    - /sbin/sysctl net.ipv6.conf.all.accept_redirects|awk -F' = ' {'print $0; if ($NF==0)
+        exit(0);else exit(1)'}
+    - /sbin/sysctl net.ipv6.conf.default.accept_redirects|awk -F' = ' {'print $0;
+        if ($NF==0) exit(0);else exit(1)'}
+    desc: Verify that IPv6 redirect acceptance is disabled.
+    id: 14
+    remed:
+    - sed -i 's/net.ipv6.conf.all.accept_redirects=[0-1]/net.ipv6.conf.all.accept_redirects=0/g'
+        /etc/sysctl.conf
+    - sed -i 's/net.ipv6.conf.default.accept_redirects=[0-1]/net.ipv6.conf.default.accept_redirects=0/g'
+        /etc/sysctl.conf
+    - /sbin/sysctl -w net.ipv6.conf.all.accept_redirects=0
+    - /sbin/sysctl -w net.ipv6.conf.default.accept_redirects=0
+    - /sbin/sysctl -w net.ipv6.route.flush=1
+    wikipage: NETWORK-14.html
+-   audit:
+    - stat -L -c '%a %u %g' /etc/hosts.allow|awk '{if ($1 == 644 && $2 == 0 && $3
+        == 0) exit(0);else exit 1}'
+    desc: Verify that permissions on /etc/host.allow are correct.
+    id: 15
+    remed:
+    - /bin/chmod 644 /etc/hosts.allow
+    wikipage: NETWORK-15.html
+-   audit:
+    - grep 'ALL:\sALL' /etc/hosts.deny
+    desc: Verify that /etc/hosts.deny is correctly configured.
+    id: 16
+    remed:
+    - echo 'ALL:ALL' >> /etc/hosts.deny
+    wikipage: NETWORK-16.html
+-   audit:
+    - stat -L -c '%a %u %g' /etc/hosts.deny|awk '{print $0; if ($1 == 644 && $2 ==
+        0 && $3 == 0) exit(0);else exit 1}'
+    desc: Verify that permissions on /etc/host.deny are correct.
+    id: 17
+    remed:
+    - /bin/chmod 644 /etc/hosts.deny
+    wikipage: NETWORK-17.html
+-   audit:
+    - rpm -q tcp_wrappers
+    desc: Verify that TCPWrappers is installed.
+    id: 18
+    remed:
+    - yum install tcp_wrappers -y
+    wikipage: NETWORK-18.html
+-   audit:
+    - /sbin/modprobe -n -v dccp | grep 'install /bin/true'
+    - /sbin/lsmod | grep dccp
+    desc: Verify that dccp is disabled.
+    id: 19
+    remed:
+    - echo "install dccp /bin/true" >> /etc/modprobe.d/blacklist.conf
+    wikipage: NETWORK-19.html
+-   audit:
+    - /sbin/modprobe -n -v sctp | grep 'install /bin/true'
+    desc: Verify that sctp is disabled.
+    id: 20
+    remed:
+    - echo "install sctp /bin/true" >> /etc/modprobe.d/blacklist.conf
+    wikipage: NETWORK-20.html
+-   audit:
+    - /sbin/modprobe -n -v rds | grep 'install /bin/true'
+    - /sbin/lsmod | grep rds
+    desc: Verify that rds is disabled.
+    id: 21
+    remed:
+    - echo "install rds /bin/true" >> /etc/modprobe.d/blacklist.conf
+    wikipage: NETWORK-21.html
+-   audit:
+    - /sbin/modprobe -n -v tipc | grep 'install /bin/true'
+    - /sbin/lsmod | grep tipc
+    desc: Verify that tipc is disabled.
+    id: 22
+    remed:
+    - echo "install tipc /bin/true" >> /etc/modprobe.d/blacklist.conf
+    wikipage: NETWORK-22.html
+-   audit:
+    - systemctl is-enabled firewalld | grep enabled
+    desc: Verify that firewalld is enabled.
+    id: 23
+    remed:
+    - systemctl enable firewalld
+    wikipage: NETWORK-23.html

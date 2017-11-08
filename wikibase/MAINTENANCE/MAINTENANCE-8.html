@@ -1,0 +1,7 @@
+{% set title = "Find Un-grouped Files and Directories" %}
+
+{% set description = "Sometimes when administrators delete users from the password file they neglect to remove all files owned by those groups from the system." %}
+
+{% set rationale = "A new group who is assigned the deleted group ID may then end up 'owning' these files, and thus have more access on the system than was intended." %}
+
+{% include 'wiki_template.jinja' with context %}

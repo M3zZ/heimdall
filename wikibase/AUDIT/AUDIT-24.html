@@ -1,0 +1,10 @@
+{% set title = "Configure logrotate" %}
+
+{% set description = "The system includes the capability of rotating log files regularly to avoid filling up the system with logs or making the logs unmanageable large. The file
+<code>/etc/logrotate.d/syslog</code> is the configuration file used to rotate log files created by
+<code>syslog</code> or
+<code>rsyslog</code>s. These files are rotated on a weekly basis via a cron job and the last 4 weeks are kept." %}
+
+{% set rationale = "By keeping the log files smaller and more manageable, a system administrator can easily archive these files to another system and spend less time looking through inordinately large log files." %}
+
+{% include 'wiki_template.jinja' with context %}

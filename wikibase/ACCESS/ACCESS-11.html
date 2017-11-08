@@ -1,0 +1,15 @@
+{% set title = "Restrict at to Authorized Users" %}
+
+{% set description = "The <code>at</code> daemon works with the
+<code>cron</code> daemon to allow non-privileged users to submit one time only jobs at their convenience. There are two files that control at:
+<code>/etc/at.allow</code> and <code>/etc/at.deny</code> . If
+<code>/etc/at.allow</code> exists, then users listed in the file are the only ones that can create
+<code>at</code> jobs. If <code>/etc/at.allow</code> does not exist and
+<code>/etc/at.deny</code> does exist, then any user on the system, with the exception of those listed in <code>/etc/at.deny</code> , are allowed to execute
+<code>at</code> jobs. An empty <code>/etc/at.deny</code> file allows any user to create <code>at</code> jobs. If neither
+<code>/etc/at.allow</code> nor <code>/etc/at.deny</code> exist, then only superuser can create
+<code>at</code> jobs. The commands below remove the <code>/etc/at.deny</code> file and create an empty <code>/etc/at.allow</code> file that can only be read and modified by user and group root." %}
+
+{% set rationale = "Granting write access to this file for non-privileged users could provide them the means to gain unauthorized elevated privileges. Granting read access to this file could give an unprivileged user insight in how to gain elevated privileges or circumvent auditing controls. In addition, it is a better practice to create a white list of users who can execute at jobs versus a blacklist of users who can't execute at jobs as a system administrator will always know who can create jobs and does not have to worry about remembering to add a user to the blacklist when a new user id is created." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,7 @@
+{% set title = "Set Default Group for root Account" %}
+
+{% set description = "The usermod command can be used to specify which group the root user belongs to. This affects permissions of files that are created by the root user." %}
+
+{% set rationale = "Using GID 0 for the root account helps prevent root-owned files from accidentally becoming accessible to non-privileged users." %}
+
+{% include 'wiki_template.jinja' with context %}

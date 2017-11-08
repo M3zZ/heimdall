@@ -1,0 +1,10 @@
+{% set title = "Set nodev option for /tmp Partition" %}
+
+{% set description = "The
+<code>nodev</code> mount option specifies that the filesystem cannot contain special devices." %}
+
+{% set rationale = "Since the
+<code>/tmp</code> filesystem is not intended to support devices, set this option to ensure that users cannot attempt to create block or character special devices in
+<code>/tmp</code>." %}
+
+{% include 'wiki_template.jinja' with context %}

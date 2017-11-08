@@ -1,0 +1,10 @@
+{% set title = "Set SSH HostbasedAuthentication to No" %}
+
+{% set description = "The
+<code>HostbasedAuthentication</code> parameter specifies if authentication is allowed through trusted hosts via the user of
+<code>.rhosts</code>, or
+<code>/etc/hosts.equiv</code>, along with successful public key client host authentication. This option only applies to SSH Protocol Version 2." %}
+
+{% set rationale = "Even though the <code>.rhosts</code> files are ineffective if support is disabled in <code>/etc/pam.conf</code>, disabling the ability to use .rhosts files in SSH provides an additional layer of protection." %}
+
+{% include 'wiki_template.jinja' with context %}

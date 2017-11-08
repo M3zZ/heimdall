@@ -1,0 +1,171 @@
+desc: Logging and audit System auditing rules
+id: 4
+name: AUDIT
+path: /home/tolivier-adm/WinDocuments/tolivier/Documents/Heimdall/heimdall/conf/rules/AUDIT.yml
+rules:
+-   audit:
+    - rpm -q rsyslog
+    desc: Verify that rsyslog is installed.
+    id: 1
+    remed:
+    - yum install rsyslog -y
+    wikipage: AUDIT-1.html
+-   audit:
+    - systemctl is-enabled rsyslog |grep enabled
+    desc: Verify that rsyslog is enabled.
+    id: 2
+    remed:
+    - systemctl enable rsyslog
+    wikipage: AUDIT-2.html
+-   audit:
+    - egrep '[^#]^*.*[^I][^I]*@' /etc/rsyslog.conf
+    desc: Verify that rsyslog is configured for sending logs to a remote host.
+    id: 3
+    remed: ''
+    wikipage: AUDIT-3.html
+-   audit:
+    - grep -w '^$ModLoad imtcp.so' /etc/rsyslog.conf
+    - grep -w '^$InputTCPServerRun' /etc/rsyslog.conf
+    desc: Verify that system accept remote rsyslog messages only on designated hosts.
+    id: 4
+    remed: ''
+    wikipage: AUDIT-4.html
+-   audit:
+    - grep '^space_left_action\s=\semail' /etc/audit/auditd.conf
+    - grep '^action_mail_acct\s=\sroot' /etc/audit/auditd.conf
+    - grep '^admin_space_left_action \s=\shalt' /etc/audit/auditd.conf
+    desc: Verify that audit log storage size is correctly configured.
+    id: 5
+    remed:
+    - sed -i 's/^space_left_action.*/space_left_action = email/g' /etc/audit/auditd.conf
+    - sed -i 's/^ action_mail_acct.*/ action_mail_acct = root/g' /etc/audit/auditd.conf
+    - sed -i 's/^ admin_space_left_action.*/space_left_action = halt/g' /etc/audit/auditd.conf
+    wikipage: AUDIT-5.html
+-   audit:
+    - grep '^max_log_file_action \s=\skeep_logs' /etc/audit/auditd.conf
+    desc: Verify that all auditing information are kept.
+    id: 6
+    remed:
+    - sed -i 's/^space_left_action.*/space_left_action = email/g' /etc/audit/auditd.conf
+    - sed -i 's/^action_mail_acct.*/ action_mail_acct = root/g' /etc/audit/auditd.conf
+    - sed -i 's/^admin_space_left_action.*/space_left_action = halt/g' /etc/audit/auditd.conf
+    wikipage: AUDIT-6.html
+-   audit:
+    - systemctl is-enabled auditd | grep enabled
+    desc: Verify that auditd is enabled.
+    id: 7
+    remed:
+    - systemctl enable auditd
+    wikipage: AUDIT-7.html
+-   audit:
+    - egrep '^(\s+)?linux.*audit\=1.*' /boot/grub2/grub.cfg
+    desc: Verify that auditing for process that start prior auditd is enabled.
+    id: 8
+    remed:
+    - sed -i 's/GRUB_CMDLINE_LINUX=".*[^"]/& audit=1/g' /etc/default/grub
+    - grub2-mkconfig -o /boot/grub2/grub.cfg
+    wikipage: AUDIT-8.html
+-   audit:
+    - grep time-change /etc/audit/audit.rules
+    desc: Verify that auditd record events that modify the system's date and time
+        information.
+    id: 9
+    remed: ''
+    wikipage: AUDIT-9.html
+-   audit:
+    - grep '[group|passwd|gshadow|opasswd].*identity$' /etc/audit/audit.rules
+    desc: Verify that auditd record events that modify the system's user and group
+        information.
+    id: 10
+    remed: ''
+    wikipage: AUDIT-10.html
+-   audit:
+    - grep system-locale /etc/audit/audit.rules
+    desc: Verify that auditd record events that modify the system's network information.
+    id: 11
+    remed: ''
+    wikipage: AUDIT-11.html
+-   audit:
+    - grep '^.*/etc/selinux.*MAC-policy$' /etc/audit/audit.rules
+    desc: Verify that auditd record events that modify the system mandatory access
+        controls.
+    id: 12
+    remed: ''
+    wikipage: AUDIT-12.html
+-   audit:
+    - egrep '^.*/var/log/(last|tally)log.*logins$' /etc/audit/audit.rules
+    desc: Verify that auditd record login and logout events.
+    id: 13
+    remed: ''
+    wikipage: AUDIT-13.html
+-   audit:
+    - egrep '^.*/var/(run|log)/[uwb]tmp.*sessions$' /etc/audit/audit.rules
+    desc: Verify that auditd record session initiation information.
+    id: 14
+    remed: ''
+    wikipage: AUDIT-14.html
+-   audit:
+    - grep 'perm_mod$' /etc/audit/audit.rules
+    desc: Verify that auditd record discretionary access control permission modification
+        events.
+    id: 15
+    remed: ''
+    wikipage: AUDIT-15.html
+-   audit:
+    - grep '$access' /etc/audit/audit.rules
+    desc: Verify that auditd record unsuccessful unauthorized access attempts to files.
+    id: 16
+    remed: ''
+    wikipage: AUDIT-16.html
+-   audit:
+    - check_audit_access.sh
+    desc: Verify that auditd record use of privileged commands.
+    id: 17
+    remed:
+    - remed_audit_access.sh
+    - pkill -P 1 -HUP auditd
+    wikipage: AUDIT-17.html
+-   audit:
+    - grep 'mounts$' /etc/audit/audit.rules
+    desc: Verify that auditd record successful file system mounts.
+    id: 18
+    remed: ''
+    wikipage: AUDIT-18.html
+-   audit:
+    - grep 'delete$' /etc/audit/audit.rules
+    desc: Verify that auditd record successful file deletion events by user.
+    id: 19
+    remed: ''
+    wikipage: AUDIT-19.html
+-   audit:
+    - grep 'scope$' /etc/audit/audit.rules
+    desc: Verify that auditd record changest to system administration privileges.
+    id: 20
+    remed: ''
+    wikipage: AUDIT-20.html
+-   audit:
+    - grep actions /etc/audit/audit.rules
+    desc: Verify that auditd record administrators actions.
+    id: 21
+    remed: ''
+    wikipage: AUDIT-21.html
+-   audit:
+    - grep modules /etc/audit/audit.rules
+    desc: Verify that auditd record kernel module loading and unloading.
+    id: 22
+    remed: ''
+    wikipage: AUDIT-22.html
+-   audit:
+    - grep '^-e 2' /etc/audit/audit.rules
+    desc: Verify that the audit configuration is immutable.
+    id: 23
+    remed:
+    - echo '-e 2' >> /etc/audit/audit.rules
+    - pkill -P 1 -HUP auditd
+    wikipage: AUDIT-23.html
+-   audit:
+    - grep 'log' /etc/logrotate.d/syslog
+    desc: Verify that the logrotate is configured.
+    id: 24
+    remed: ''
+    wikipage: AUDIT-24.html

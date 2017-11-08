@@ -1,0 +1,9 @@
+{% set title = "Create Separate Partition for /home" %}
+
+{% set description = "The <code>/home</code> directory is used to support disk storage needs of local users." %}
+
+{% set rationale = "If the system is intended to support local users, create a separate partition for the
+<code>/home</code> directory to protect against resource exhaustion and restrict the type of files that can be stored under
+<code>/home</code>." %}
+
+{% include 'wiki_template.jinja' with context %}

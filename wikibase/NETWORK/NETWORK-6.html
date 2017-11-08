@@ -1,0 +1,7 @@
+{% set title = "Log Suspicious Packets" %}
+
+{% set description = "When enabled, this feature logs packets with un-routable source addresses to the kernel log." %}
+
+{% set rationale = "Enabling this feature and logging these packets allows an administrator to investigate the possibility that an attacker is sending spoofed packets to their server." %}
+
+{% include 'wiki_template.jinja' with context %}

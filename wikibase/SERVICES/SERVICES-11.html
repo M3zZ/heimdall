@@ -1,0 +1,9 @@
+{% set title = "Remove xinetd" %}
+
+{% set description = "The eXtended InterNET Daemon (
+<code>xinetd</code> ) is an open source super daemon that replaced the original <code>inetd</code> daemon. The <code>xinetd</code> daemon listens for well known services and dispatches the appropriate daemon to properly respond to service requests." %}
+
+{% set rationale = "If there are no
+<code>xinetd</code> services required, it is recommended that the daemon be deleted from the system." %}
+
+{% include 'wiki_template.jinja' with context %}

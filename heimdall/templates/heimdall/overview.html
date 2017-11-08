@@ -1,0 +1,228 @@
+{% if item == 'host' or item == 'overview'%}
+<div class="dynamic-window-table">
+    <div class="double-table">
+        {% if item == 'host' %}
+        <table>
+            <tbody>
+            <tr>
+                <th>Not Audited hosts</th>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        {% for k in data %}
+                        {% if not data.last_audit %}
+                        <li><a href="item=host&action=detail&id={{ k.id }}">{{ k }}</a></li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        {% else %}
+        <table class="simple-table">
+            <tbody>
+            <tr>
+                <th>Tasks</th>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li><a href="item=host&action=add">Add new host</a></li>
+                        <li><a href="item=rule&action=add">Add new rule</a></li>
+                        <li><a href="item=profile&action=add">Add new profile</a></li>
+                        <li><a href="item=audit&action=add">Schedule new audit</a></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        {% endif %}
+        <table>
+            <tbody>
+            <tr>
+                <th>Critical hosts</th>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        {% for h in data %}
+                        {% if h.status == 2 %}
+                        <li><a href="item=host&action=detail&id={{ h.id }}">{{ h }}</a></li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <table class="simple-table">
+        <tbody>
+        <tr>
+            <th>Last audited hosts</th>
+        </tr>
+        <tr>
+            <td>
+                <ul>
+                    {% for k in data.last_audited %}
+                    <li><a href="item=host&action=detail&id={{ k.id }}">{{ k }}</a></li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+{% elif item == 'audit' %}
+<div class="dynamic-window-table">
+    <div class="double-table">
+        <table>
+            <tbody>
+            <tr>
+                <th>Audits Scheduled</th>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        {% for a in data %}
+                        {% if a.audit_status == 255 %}
+                        <li><a href="#">Audit #{{ a.id }}</a> : <a href="#">{{ a.host }}</a> with <a href="#">{{
+                            a.profile }}</a> at {{ a.date }}
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <table>
+            <tbody>
+            <tr>
+                <th>Latest Audits</th>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        {% for la in last_audited %}
+                        <li><a href="item=audit&action=detail&id={{ la.audit.id }}">Audit #{{ la.id }}</a> : <a
+                                href="item=host&action=detail&id={{ la.host.id }}">{{ la.host }}</a> with <a
+                                href="item=profile&action=detail&id={{ la.profile.id }}">{{ la.profile }}</a> at {{
+                            la.date }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="double-table">
+        <table>
+            <tbody>
+            <tr>
+                <th>Warning Audits</th>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        {% for a in data %}
+                        {% if a.audit_status == 1 %}
+                        <li><a href="item=audit&action=detail&id={{ a.id }}">Audit #{{ a.id }}</a> : <a
+                                href="item=host&action=detail&id={{ a.host.id }}">{{ a.host }}</a> at {{ a.date }}
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <table>
+            <tbody>
+            <tr>
+                <th>Criticals Audits</th>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        {% for a in data %}
+                        {% if a.audit_status == 2 %}
+                        <li><a href="item=audit&action=detail&id={{ a.id }}">Audit #{{ a.id }}</a> : <a
+                                href="item=host&action=detail&id={{ a.host.id }}">{{ a.host }}</a> at {{ a.date }}
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% else %}
+<div class="dynamic-window-table">
+    {% if data %}
+    {% for i in data %}
+    {% if forloop.counter0|divisibleby:2 %}
+    <div class="double-table">
+        {% endif %}
+        <table class="{{ i.name }}-{{ item|title }}">
+            <tbody>
+            <tr>
+                <th><a href="item={{ item }}&action=detail&id={{ i.id }}">{{ i.name }}</a></th>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        {% if item == 'profile' %}
+                        <li>Hosts :
+                            <ul>
+                                {% for h in i.get_hosts %}
+                                <li><a href="item=host&action=detail&id={{ h.id }}">{{ h.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li>Rules :
+                            <ul>
+                                {% for r in i.get_rules %}
+                                <li><a href="item=rule&action=detail&id={{ r.id }}">{{ r.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        {% else %}
+
+                        {% if item == 'hostsgroup' %}
+                        {% for h in i.get_hosts %}
+                        <li><a href="item=host&action=detail&id={{ h.id }}">{{ h.name }}</a></li>
+                        {% endfor %}
+                        {% elif item == 'type' or item == 'profile' %}
+                        {% for r in i.get_rules %}
+                        <li><a href="item=rule&action=detail&id={{ r.id }}">{{ r.name }}</a></li>
+                        {% endfor %}
+                        {% elif item == 'rule' %}
+                        {% with fields=i.get_fields %}
+                        <li>id: {{ fields.id }}</li>
+                        <li>type: {{ fields.type }}</li>
+                        <li>audit command: # {{ fields.audit_command }}</li>
+                        {% endwith %}
+                        {% else %}
+                        None.
+                        {% endif %}
+                        {% endif %}
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        {% if not forloop.counter0|divisibleby:2 %}
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% else %}
+    No {{ item }} created.
+    {% endif %}
+</div>
+{% endif %}

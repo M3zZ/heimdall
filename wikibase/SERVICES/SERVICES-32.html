@@ -1,0 +1,7 @@
+{% set title = "Remove HTTP Proxy Server" %}
+
+{% set description = "The default HTTP proxy package shipped with CentOS Linux is squid." %}
+
+{% set rationale = "If there is no need for a proxy server, it is recommended that the squid proxy be deleted to reduce the potential attack surface." %}
+
+{% include 'wiki_template.jinja' with context %}

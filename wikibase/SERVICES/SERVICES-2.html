@@ -1,0 +1,10 @@
+{% set title = "Remove telnet-server" %}
+
+{% set description = "The <code>telnet</code> package contains the
+<code>telnet</code> client, which allows users to start connections to other systems via the telnet protocol." %}
+
+{% set rationale = "The
+<code>telnet</code> protocol is insecure and unencrypted. The use of an unencrypted transmission medium could allow an authorized user to steal credentials. The
+<code>ssh</code> package provides an encrypted session and stronger security and is included in most Linux distributions." %}
+
+{% include 'wiki_template.jinja' with context %}

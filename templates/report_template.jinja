@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Heimdall Evaluation Report</title>
+    <link rel="stylesheet" type="text/css" href="heimdall_report.css">
+    <script src="heimdall_report.js"></script>
+</head>
+<body style="padding-left: 38px">
+<div id="characteristics">
+    <h2>Audit Characteristics</h2>
+    <div class="row">
+        <div class="col-md-5 horizontal-scroll">
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th>Host Plateform</th>
+                    <td>{{ plateform }}</td>
+                </tr>
+                <tr>
+                    <th>Host Environment</th>
+                    <td>{{ environment }}</td>
+                </tr>
+                <tr>
+                    <th>Host name</th>
+                    <td>{{ host.name }}</td>
+                </tr>
+                <tr>
+                    <th>Host Description</th>
+                    <td>{{ host.desc }}</td>
+                </tr>
+                <tr>
+                    <th>Host Address</th>
+                    <td>{{ host.ip }}</td>
+                </tr>
+                <tr>
+                    <th>Host Distribution</th>
+                    <td>{{ host.distribution}}</td>
+                </tr>
+                <tr>
+                    <th>Kernel Version</th>
+                    <td>{{ host.kernel_version }}</td>
+                </tr>
+                <tr>
+                    <th>Last Audit</th>
+                    <td>{{ host.last_audit }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="compliance-and-scoring">
+    <h2>Audit result</h2>
+    <div class="progress" title="Displays proportion of passed/failed/error/timeout rules" style="width: 50%">
+        {%- for ret_type, p in pourcent.iteritems() -%}
+        {%- if p -%}
+        <div class="progress-bar progress-bar-{{ ret_type|e }}" style="width: {{ p|round|int }}%">{{
+            "{:.2f}".format(p) }} %
+        </div>
+        {%- endif -%}
+        {%- endfor -%}
+    </div>
+</div>
+<div id="rule-overview">
+    <h2>Rule Overview</h2>
+    <div class="form-group js-only" style="display: block;">
+        <div class="row">
+            <div title="Filter rules by their Audit result">
+                {%- for ret_type in stats.keys() -%}
+                <div class="col-sm-2">
+                    <div class="checkbox">
+                        <label>
+                            <input onclick="toggleRuleDisplay(this)" value="{{ ret_type|e }}" type="checkbox" checked>{{
+                            ret_type|e }}
+                        </label>
+                    </div>
+                </div>
+                {%- endfor -%}
+            </div>
+        </div>
+    </div>
+    <div class="input-group">
+        <input class="form-control" placeholder="Search through Heimdall rules" id="search-input" oninput="ruleSearch()"
+               value="" type="text">
+        <div class="input-group-btn">
+            <button class="btn btn-default" onclick="ruleSearch()">Search</button>
+        </div>
+    </div>
+    <p id="search-matches"></p>
+    <div>
+        <table class="treetable table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th style="text-align: center">Result</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-tt-id="AUDIT"
+                class="rule-overview-inner-node rule-overview-inner-node-id-AUDITRESULT branch collapsed">
+                <td colspan="3" style="padding-left: 0px">
+                    <a href="#" title="Collapse">&nbsp;</a>
+                    <strong>Audit result for targeted server</strong>
+                    {%- for ret_type, ret_value in total.iteritems() -%}
+                    &nbsp;
+                    <span class="badge badge-{{ ret_type|e }}"> {{ ret_value }}x {{ ret_type|e}} </span>
+                    &nbsp;
+                    {%- endfor -%}
+                </td>
+            </tr>
+            {%- for type in profile.types -%}
+            <tr data-tt-id="{{ type.name|e }}"
+                class="rule-overview-inner-node rule-overview-inner-node-id-{{ type.name|e }} branch expanded"
+                data-tt-parent-id="AUDITRESULT" style="display: None">
+                <td colspan="3" style="padding-left: 19px">
+                    <a href="#" title="Collapse">&nbsp;</a>
+                    <strong>{{ type.desc }}</strong>
+                    {%- for ret_type in stats.keys() -%}
+                    <span class="badge badge-{{ ret_type|e }}"> {{ stats[ret_type][type.name] }}x {{ ret_type }} </span>
+                    {%- endfor -%}
+                </td>
+            </tr>
+            {%- for rule in type.rules -%}
+            <tr data-tt-id="{{ type.name|e }}-{{ rule.id|e }}"
+                class="rule-overview-leaf rule-overview-leaf-{{ rule_output[type.name][rule.id]['ret_status']|e }} rule-overview-leaf-id-{{ type.name|e }}-{{ rule.id|e }} leaf expanded"
+                id="rule-overview-leaf-{{ type.name|e }}-{{ rule.id|e }}" data-tt-parent-id="{{ type.name|e }}"
+                style="display: None">
+                <td style="padding-left: 38px">
+                    <a href="#rule-detail-{{ type.name|e }}-{{ rule.id|e }}"
+                       onclick="return openRuleDetailsDialog('{{ type.name|e }}-{{ rule.id|e }}')"
+                       id="{{ type.name|e }}-{{ rule.id|e }}"
+                       class="rule-detail rule-detail-id-{{ type.name|e }}-{{ rule.id|e }}">{{ rule.id }} - {{ rule.desc }}</a>
+                </td>
+                <td class="rule-result rule-result-{{ rule_output[type.name][rule.id]['ret_status']|e }}">
+                    <div>
+                        {%- if rule_output[type.name][rule.id]['ret_status'] == 'success' -%}
+                        <abbr title="The target system or system component satisfied all the conditions of the rule.">
+                            pass
+                        </abbr>
+                        {%- elif rule_output[type.name][rule.id]['ret_status'] == 'fail' -%}
+                        <abbr title="The target system or system component did not satisfy at least one condition of the rule.">
+                            fail
+                        </abbr>
+                        {%- elif rule_output[type.name][rule.id]['ret_status'] == 'timeout' -%}
+                        <abbr title="Tested rule take to much time to finish. Rule was cancelled before the end of her execution">
+                            timeout
+                        </abbr>
+                        {%- else -%}
+                        <abbr title="At least one error occure during rule's execution.">
+                            error
+                        </abbr>
+                        {%- endif -%}
+                    </div>
+                </td>
+            </tr>
+            {%- endfor -%}
+            {%- endfor -%}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="js-only" style="display: block;">
+    <button type="button" class="btn btn-info" onclick="return toggleResultDetails(this)">Show all result details
+    </button>
+</div>
+<div id="result-details" style="display: block;">
+    <h2>Result Details</h2>
+    {%- for type in profile.types -%}
+    {%- for rule in type.rules -%}
+    <div class="panel panel-default rule-detail rule-detail-{{ rule_output[type.name][rule.id]['ret_status']|e }} rule-detail-id-{{ type.name|e }}-{{ rule.id|e }}"
+         id="rule-detail-{{ type.name|e }}-{{ rule.id|e }}">
+        {% include rule.wikipage with context %}
+    </div>
+    {% endfor %}
+    {% endfor %}
+</div>
+<footer id="footer">
+    <div class="container">
+        <p class="muted credit">Generated using Heimdall</p>
+    </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{% set title = "Check for Presence of User .netrc Files" %}
+
+{% set description = "The
+<code>.netrc</code> file contains data for logging into a remote host for file transfers via FTP." %}
+
+{% set rationale = "The
+<code>.netrc</code> file presents a significant security risk since it stores passwords in unencrypted form. Even if FTP is disabled, user accounts may have brought over .netrc files from other systems which could pose a risk to those systems." %}
+
+{% include 'wiki_template.jinja' with context %}

@@ -1,0 +1,8 @@
+{% set title = "Check That Users Are Assigned Valid Home Directories" %}
+
+{% set description = "Users can be defined in
+<code>/etc/passwd</code> without a home directory or with a home directory does not actually exist." %}
+
+{% set rationale = "If the user's home directory does not exist or is unassigned, the user will be placed in '/' and will not be able to write any files or have local environment variables set." %}
+
+{% include 'wiki_template.jinja' with context %}
